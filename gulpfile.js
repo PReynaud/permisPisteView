@@ -4,17 +4,26 @@ var gulp = require("gulp"),
 	st = require("st"),
 	browserify = require('browserify'),
 	reactify = require('reactify'),
-	source = require('vinyl-source-stream');
+	source = require('vinyl-source-stream'),
+	concat = require('gulp-concat'),
+	mainBowerFiles = require('main-bower-files');
 
 var path = {
 	HTML: 'src/*.html',
-	JS: 'src/*.jsx',
+	/*JS: 'src/*.jsx',*/
 	OUT: 'app.js',
-	ENTRY_POINT: 'src/index.jsx',
-	DEST: 'dist'
+	/*ENTRY_POINT: 'src/index.jsx',*/
+	DEST: 'dist',
+	ALL_JS: 'src/*/*.js',
+	MAIN_JS: 'src/js/app.js',
+	BOWER: 'bower_components/*/*.js'
 };
 
-gulp.task('dev', ['html', 'js', 'watch', 'server'], function(){
+/*gulp.task('dev-react', ['html', 'react', 'watch-react', 'server'], function(){
+});*/
+
+gulp.task('dev', ['html', 'backbone', 'bower', 'watch', 'server'], function(){
+
 });
 
 gulp.task('html', function(){
@@ -22,7 +31,7 @@ gulp.task('html', function(){
         .pipe(gulp.dest(path.DEST));
 });
 
-gulp.task('js', function(){
+/*gulp.task('react', function(){
 	return browserify({
 	    entries: [path.ENTRY_POINT],
 	    transform: [reactify],
@@ -35,11 +44,38 @@ gulp.task('js', function(){
 	    .pipe(source(path.OUT))
 	    .pipe(gulp.dest(path.DEST));
 	
+});*/
+
+gulp.task("backbone", function(){
+	return browserify({
+	    entries: [path.MAIN_JS],
+	    debug: true,
+	    cache: {}, 
+	    packageCache: {}, 
+	    fullPaths: true
+	})
+		.bundle()
+	    .pipe(source(path.OUT))
+	    .pipe(gulp.dest(path.DEST));
 });
 
-gulp.task('watch', function() {
+gulp.task('bower', function(){
+	/*return gulp.src(mainBowerFiles)
+		.pipe(concat('vendor.js'))
+		.pipe(gulp.dest(path.DEST));*/
+
+		return gulp.src('bower_components/**/*.*')
+		.pipe(gulp.dest(path.DEST));
+});
+
+/*gulp.task('watch-react', function() {
 	gulp.watch(path.HTML, ['html']);
 	gulp.watch(path.JS, ['js']);
+});*/
+
+gulp.task('watch', function(){
+	gulp.watch(path.HTML, ['html']);
+	gulp.watch(path.ALL_JS, ['backbone']);
 });
 
 gulp.task('server', function(done) {

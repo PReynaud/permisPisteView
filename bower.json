@@ -1,0 +1,22 @@
+{
+  "name": "PermisPisteView",
+  "version": "0.0.0",
+  "homepage": "https://github.com/PReynaud/permisPisteView",
+  "authors": [
+    "PReynaud <pierre.reynaud@hotmail.fr>"
+  ],
+  "description": "Vue du projet PermisPiste",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "backbone": "~1.2.1",
+    "handlebars": "~3.0.3",
+    "bootstrap": "~3.3.4"
+  }
+}
