@@ -6,6 +6,7 @@ _ Redémarrer
 _ Tester que ça marche dans une console en tapant "npm"
 _ Se placer dans la racine du projet
 _ Taper "npm install"
+_ Taper "npm install -g bower"
 _ Taper "bower install"
 
 L'installation est prête :-)
