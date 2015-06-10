@@ -14,7 +14,7 @@ var path = {
 	OUT: 'app.js',
 	/*ENTRY_POINT: 'src/index.jsx',*/
 	DEST: 'dist',
-	ALL_JS: 'src/**/*.js',
+	ALL_JS: ['src/js/**/*.js', 'src/js/**/*.hbs'],
 	MAIN_JS: 'src/js/app.js',
 	BOWER: 'bower_components/*/*.js',
 	CSS: 'src/css/*.css'
