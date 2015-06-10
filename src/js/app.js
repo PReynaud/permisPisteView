@@ -4,7 +4,7 @@ var Apprentis = require('./Apprentis/Apprentis');
 var Router = Backbone.Router.extend({
 	routes: {
 		"": "Accueil",
-		"*Apprentis": "Apprentis"
+		"Apprentis": "Apprentis"
 	},
 
 	initialize: function(){
