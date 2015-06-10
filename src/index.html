@@ -1,19 +1,44 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Page accueil</title>
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
   <body>
 
-  <div class="header"></div>
+  <div class="header">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">PermisPiste :-)</a>
+        </div>
 
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a href="#">Accueil</a></li>
+            <li><a href="#">Pouet</a></li>
+            <li><a href="#">Miaou</a></li>
+            <li><a href="#">Banana</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div>
+    </nav>
+  </div>
 
-  	<h1>Je fonctionne</h1>
-  	<h2>Il semblerait en tout cas...</h2>
-    <div id="example"></div>
+  <div class="main">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Je fonctionne</h1>
+        <h2>Il semblerait en tout cas...</h2>
+        <div id="example"></div>
+      </div>
+    </div>
+  </div>
 
-    <script src="jquery/dist/jquery.min.js"></script>
-    <script src="underscore/underscore-min.js"></script>
-    <script src="backbone/backbone-min.js"></script>
-    <script src="app.js"></script>
+    <script src="vendor/jquery/dist/jquery.min.js"></script>
+    <script src="vendor/underscore/underscore-min.js"></script>
+    <script src="vendor/backbone/backbone-min.js"></script>
+    <script src="js/app.js"></script>
   </body>
 </html>

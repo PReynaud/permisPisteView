@@ -16,13 +16,14 @@ var path = {
 	DEST: 'dist',
 	ALL_JS: 'src/**/*.js',
 	MAIN_JS: 'src/js/app.js',
-	BOWER: 'bower_components/*/*.js'
+	BOWER: 'bower_components/*/*.js',
+	CSS: 'src/css/*.css'
 };
 
 /*gulp.task('dev-react', ['html', 'react', 'watch-react', 'server'], function(){
 });*/
 
-gulp.task('dev', ['html', 'backbone', 'bower', 'watch', 'server'], function(){
+gulp.task('dev', ['html', 'css', 'backbone', 'bower', 'watch', 'server'], function(){
 
 });
 
@@ -56,7 +57,7 @@ gulp.task("backbone", function(){
 	})
 		.bundle()
 	    .pipe(source(path.OUT))
-	    .pipe(gulp.dest(path.DEST));
+	    .pipe(gulp.dest(path.DEST + "/js"));
 });
 
 gulp.task('bower', function(){
@@ -65,7 +66,7 @@ gulp.task('bower', function(){
 		.pipe(gulp.dest(path.DEST));*/
 
 		return gulp.src('bower_components/**/*.*')
-		.pipe(gulp.dest(path.DEST));
+		.pipe(gulp.dest(path.DEST + "/vendor"));
 });
 
 /*gulp.task('watch-react', function() {
@@ -73,9 +74,20 @@ gulp.task('bower', function(){
 	gulp.watch(path.JS, ['js']);
 });*/
 
+gulp.task('css', function(){
+	return gulp.src(path.CSS)
+	.pipe(gulp.dest(path.DEST + "/css"));
+});
+
 gulp.task('watch', function(){
 	gulp.watch(path.HTML, ['html']);
 	gulp.watch(path.ALL_JS, ['backbone']);
+	gulp.watch(path.CSS, ['css']);
+});
+
+gulp.task('clean', function(){
+	return gulp.src(path.DEST + '/*')
+	.pipe(clean());
 });
 
 gulp.task('server', function(done) {
