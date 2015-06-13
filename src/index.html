@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Page accueil</title>
+    <title>Permis Piste</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="vendor/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
@@ -10,31 +11,51 @@
   <div class="header">
     <nav class="navbar navbar-default">
       <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">PermisPiste :-)</a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Permis Piste</a>
         </div>
 
+        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="#">Accueil</a></li>
-            <li><a href="#">Pouet</a></li>
-            <li><a href="#">Miaou</a></li>
-            <li><a href="#">Banana</a></li>
-            <li><a href="#Apprentis">Apprentis</a>
+            <li class="active"><a href="#">Accueil <span class="sr-only">(current)</span></a></li>
+            <li><a href="#Apprentis">Apprentis</a></li>
+            <li><a href="#">Jeux</a></li>
+            <li><a href="#">Objectifs</a></li>
+            <li><a href="#">Actions</a></li>
+            <li><a href="#">Règles</a></li>
+            <li><a href="#">Indicateurs</a></li>
           </ul>
+          <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Rechercher" id="searchBar">
+            </div>
+            <button type="submit" class="btn btn-default" id="submitSearch">
+              <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
+          </form>
         </div><!-- /.navbar-collapse -->
-      </div>
+      </div><!-- /.container-fluid -->
     </nav>
   </div>
 
-  <div class="main">
+  <div id="main">
     <div class="row">
-      <div class="col-sm-12">
-        <div id="example"></div>
+      <div class="col-sm-12" id="title">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12" id="content">
       </div>
     </div>
   </div>
-
   <div class="navbar navbar-default navbar-fixed-bottom" overflow="scroll">
     <div id="conteneurFooter">Corinne Fagno - Gael Ferjani - Laura Premillieu - Pierre Reynaud - Dimitri Rodarie</div>
   </div>

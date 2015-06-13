@@ -1,11 +1,17 @@
 h1{
 	color: red;
+	text-align: center;
 }
 
 body{
 	background-color: #EFEFEF
 }
 
+
+/*****  Header  *******/
+
+
+/*****  Footer  *******/
 #conteneurFooter{
     margin-top: 10px;
     margin-left: auto;

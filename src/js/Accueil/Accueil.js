@@ -1,7 +1,8 @@
 var template = require("./Accueil.hbs");
 
 module.exports = Backbone.View.extend({
-	el : $('#example'),
+	content : $('#content'),
+	title : $('#title'),
 
 	//Appelé au moment de l'instanciation	
 	initialize: function(){
@@ -9,7 +10,7 @@ module.exports = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(){
-		console.log("Je fais un rendu d'Accueil");
-		$(this.el).append(template());
+		$(this.title).html("Projet permis piste");
+		$(this.content).html(template());
 	}
 });

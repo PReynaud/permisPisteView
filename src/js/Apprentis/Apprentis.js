@@ -2,7 +2,9 @@ var apprentisModel = require('./ApprentisList');
 var template = require('./Apprentis.hbs');
 
 var view = Backbone.View.extend({
-	el : $('body'),
+	pageName : $('title'),
+	title : $('#title'),
+	content : $('#content'),
 
 	//Appelé au moment de l'instanciation	
 	initialize: function(){
@@ -10,15 +12,17 @@ var view = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(){
-		console.log("Je fais un rendu d'Apprentis");
 		var model = new apprentisModel().fetch({
-			success: _.bind(this.renderResultat, this)
+			success: _.bind(this.renderResultat, this),
+			error: _.bind(this.renderResultat,this)
 		});
-		$(this.el).append("<h1>Je suis rajouté par backbone</h1>");
+		console.log(model);
+		$(this.pageName).html("Liste des Apprentis");
+		$(this.title).html("Liste des Apprentis");
 	},
 
 	renderResultat: function(response){
-		$(this.el).append(template({apprentis: response.toArray()}));
+		$(this.content).html(template({apprentis: response.toArray()}));
 	}
 });
 
