@@ -1,10 +1,10 @@
-var Accueil = require('./Accueil/Accueil');
-var Apprentis = require('./Apprentis/Apprentis');
+var Accueil = require('./View/Accueil/Accueil');
+var Apprenants = require('./View/Apprenants/RouterApprenants');
+var Actions = require('./View/Actions/RouterActions');
 
 var Router = Backbone.Router.extend({
 	routes: {
-		"": "Accueil",
-		"Apprentis": "Apprentis"
+		"": "Accueil"
 	},
 
 	initialize: function(){
@@ -12,18 +12,13 @@ var Router = Backbone.Router.extend({
 	},
 
 	Accueil: function(){
-		console.log("Je route vers l'accueil");
 		this.accueil = new Accueil();
 		this.accueil.render();
-	},
-
-	Apprentis: function(){
-		console.log("Je route vers Apprentis");
-		this.apprentis = new Apprentis();
-		this.apprentis.render();
 	}
 });
 
 var router = new Router();
+var apprenantsRouter = new Apprenants();
+var actionsRouter = new Actions();
 
 Backbone.history.start();

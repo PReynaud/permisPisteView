@@ -1,5 +1,7 @@
 var template = require("./Accueil.hbs");
 
+
+
 module.exports = Backbone.View.extend({
 	content : $('#content'),
 	title : $('#title'),
