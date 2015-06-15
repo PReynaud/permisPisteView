@@ -1,4 +1,6 @@
+var config = require('../../configuration.js');
+
 var ReglesModel = Backbone.Model.extend({
-	urlRoot: 'http://localhost:8080/Regle/'
+	urlRoot: config.url + 'Regle/'
 });
 module.exports = ReglesModel;

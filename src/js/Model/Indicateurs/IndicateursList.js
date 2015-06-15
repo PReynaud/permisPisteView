@@ -1,8 +1,9 @@
+var config = require('../../configuration.js');
 var IndicateursModel = require('./Indicateur');
 
 var IndicateursCollection = Backbone.Collection.extend({
 	model: IndicateursModel,
-	url: 'http://localhost:8080/Indicateur/'
+	url: config.url + 'Indicateur/'
 });
 
  module.exports = IndicateursCollection;

@@ -1,4 +1,6 @@
+var config = require('../../configuration.js');
+
 var ActionsModel = Backbone.Model.extend({
-	urlRoot: 'http://localhost:8080/Action/'
+	urlRoot: config.url + 'Action/'
 });
 module.exports = ActionsModel;

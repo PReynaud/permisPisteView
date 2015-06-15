@@ -1,4 +1,6 @@
+var config = require('../../configuration.js');
+
 var IndicateursModel = Backbone.Model.extend({
-	urlRoot: 'http://localhost:8080/Indicateur/'
+	urlRoot: config.url + 'Indicateur/'
 });
 module.exports = IndicateursModel;

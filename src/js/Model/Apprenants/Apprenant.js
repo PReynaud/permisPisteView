@@ -1,5 +1,7 @@
+var config = require('../../configuration.js');
+
 var ApprenantsModel = Backbone.Model.extend({
-	urlRoot: 'http://localhost:8080/Apprenant/'
+	urlRoot: config.url + 'Apprenant/'
 });
 
 module.exports = ApprenantsModel;

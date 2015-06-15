@@ -1,8 +1,9 @@
+var config = require('../../configuration.js');
 var ApprenantsModel = require('./Apprenant');
 
 var ApprenantsCollection = Backbone.Collection.extend({
 	model: ApprenantsModel,
-	url: 'http://localhost:8080/Apprenant/'
+	url: config.url + 'Apprenant/'
 });
 
  module.exports = ApprenantsCollection;
