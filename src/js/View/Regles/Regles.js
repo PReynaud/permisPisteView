@@ -1,5 +1,5 @@
-var actionsModel = require('../../Model/Actions/ActionsList');
-var template = require('./Actions.hbs');
+var regleModel = require('../../Model/Regles/ReglesList');
+var template = require('./Regles.hbs');
 
 var view = Backbone.View.extend({
 	pageName : $('title'),
@@ -12,15 +12,15 @@ var view = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(){
-		var model = new actionsModel().fetch({
+		var model = new regleModel().fetch({
 			success: _.bind(this.renderResultat, this)
 		});
-		$(this.pageName).html("Liste des Actions");
-		$(this.title).html("Liste des Actions");
+		$(this.pageName).html("Liste des Règles");
+		$(this.title).html("Liste des Règles");
 	},
 
 	renderResultat: function(response){
-		$(this.content).html(template({actions: response.toArray()}));
+		$(this.content).html(template({regles: response.toArray()}));
 	}
 });
 
