@@ -32,7 +32,7 @@ var view = Backbone.View.extend({
 
 		var model = new regleModel();
 		model.save({"libregle":libRegle, "scoremin":scoreAction});
-
+		$("#myModal").modal();
 
 		/* Seconde méthode pour requêter, peut valloir le coup de la garder au cas ou...
 		var info = {
