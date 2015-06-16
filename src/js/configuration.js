@@ -1,5 +1,5 @@
 var configuration = {
-	url: "http://vps171722.ovh.net:8080/epul-0.0.1-SNAPSHOT/"
+	url: "http://localhost:8080/"
 };
 
 module.exports = configuration;
