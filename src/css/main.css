@@ -18,3 +18,13 @@ body{
     margin-right: auto;
     text-align: center;
 }
+
+/**********************/
+#modalErrorView .modal-header{
+	background-color: #fc4e4e;
+}
+
+#modalErrorView .modal-footer{
+	background-color: #fc4e4e;
+}
+
