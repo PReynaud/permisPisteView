@@ -19,9 +19,9 @@ var view = Backbone.View.extend({
 		this.$pageName.html("Ajout Règle");
 		this.$title.html("Ajouter une Règle");
 
-		var $submitButton = $('#submitButton');
+		var $formAjoutRegle = $('#formAjoutRegle');
 
-		$submitButton.click(_.bind(function(event){
+		$formAjoutRegle.submit(_.bind(function(event){
 		    this.valid();
 		}, this));
 	},
@@ -48,11 +48,12 @@ var view = Backbone.View.extend({
 			dataType: "application/json",
 			contentType: "application/json"
 		});*/
-
+		Backbone.history.navigate('#Regles', {trigger:false}); 
 		return true;
 	},
 
 	showModal: function(){
+		console.log("success");
 		var modalView = new modal({
 			modalTitle: "Ajout",
 		 	modalBody: "L'ajout a été effectué avec succès"
@@ -60,6 +61,7 @@ var view = Backbone.View.extend({
 	},
 
 	showErrorModal: function(error){
+		console.log("error");
 		var modalView = new modal({
 			modalTitle: "Ajout",
 		 	modalBody: "Erreur lors de l'ajout : " + error,
