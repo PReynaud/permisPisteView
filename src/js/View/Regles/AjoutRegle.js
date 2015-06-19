@@ -34,34 +34,21 @@ var view = Backbone.View.extend({
 		model.save({"libregle":libRegle, "scoremin":scoreAction}, {
 			success: this.showModal,
 			error: this.showErrorModal
-		});
-
-		/* Seconde méthode pour requêter, peut valloir le coup de la garder au cas ou...
-		var info = {
-			    libregle: "gerq", 
-			    scoremin: "15"
-		};
-		$.ajax({
-			type: "POST",
-			url: "http://localhost:8080/Regle/",
-			data: JSON.stringify(info),
-			dataType: "application/json",
-			contentType: "application/json"
-		});*/
-		Backbone.history.navigate('#Regles', {trigger:false}); 
+		}) 
 		return true;
 	},
 
 	showModal: function(){
-		console.log("success");
 		var modalView = new modal({
 			modalTitle: "Ajout",
 		 	modalBody: "L'ajout a été effectué avec succès"
 		});
+		modalview.on('hidden.bs.modal',function(e){
+			Backbone.history.navigate('#Regles', {trigger:true});
+		});
 	},
 
 	showErrorModal: function(error){
-		console.log("error");
 		var modalView = new modal({
 			modalTitle: "Ajout",
 		 	modalBody: "Erreur lors de l'ajout : " + error,
