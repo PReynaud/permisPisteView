@@ -4,6 +4,7 @@
 			<th>Identifiant</th>
 			<th>Libellé Règle</th>
 			<th>Score</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -11,6 +12,14 @@
 				<td>{{regle.attributes.numregle}}</td>
 				<td>{{regle.attributes.libregle}}</td>
 				<td>{{regle.attributes.scoremin}}</td>
+				<td>
+					<a href="#Regles/Modifier/{{regle.attributes.numregle}}">
+						<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+					</a>
+					<a href="#Regles/Supprimer/{{regle.attributes.numregle}}">
+						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+					</a>
+				</td>
 			</tr>
 	</tbody>
 </table>

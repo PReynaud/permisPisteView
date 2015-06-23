@@ -26,16 +26,42 @@ var view = Backbone.View.extend({
 		}, this));
 	},
 
+	renderModif: function(id){
+		var model = new regleModel({"id":id}).fetch({
+			success: _.bind(this.renderResultat, this)
+		});
+		this.$pageName.html("Modifier Règle");
+		this.$title.html("Modifier une Règle");
+		this.idRegle=id;
+	},
+
 	valid: function(e){
 		var libRegle = $('#libRegle').val();
 		var scoreAction = $('#scoreAction').val();
 
 		var model = new regleModel();
-		model.save({"libregle":libRegle, "scoremin":scoreAction}, {
-			success: this.showModal,
-			error: this.showErrorModal
-		}) 
+		if (this.idRegle===undefined){
+			model.save({"libregle":libRegle, "scoremin":scoreAction}, {
+				success: this.showModal,
+				error: this.showErrorModal
+			}); 
+		}
+		else{
+			model.save({"id":this.idRegle, "libregle":libRegle, "scoremin":scoreAction}, {
+				success: this.showModal,
+				error: this.showErrorModal
+			});
+		} 
 		return true;
+	},
+
+	renderResultat: function(regle){
+		this.$content.html(template({regle}));
+		var $formAjoutRegle = $('#formAjoutRegle');
+
+		$formAjoutRegle.submit(_.bind(function(event){
+		    this.valid();
+		}, this));
 	},
 
 	showModal: function(){
