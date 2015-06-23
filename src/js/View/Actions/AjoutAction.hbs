@@ -1,0 +1,21 @@
+  <form id="formAjoutAction" method="post">
+  <div class="form-group">
+    <select class="form-control"> <!-- null si sélectionne rien -->
+      <option value=null> Aucun </option>
+      {{#each actions}}
+        <option>{{attributes.numaction}} {{attributes.libaction}}</option>
+      {{/each}}
+    </select>
+    <!-- <label for="actNumaction">actNumaction</label>
+    <input type="number" class="form-control" id="actNumaction" placeholder="Entrez un numéro d'action" value="{{action.attributes.actNumaction}}"> -->
+  </div>
+  <div class="form-group">
+    <label for="libaction">libaction</label>
+    <input type="text" class="form-control" id="libaction" placeholder="Entrez un libellé" value="{{action.attributes.libaction}}" required>
+  </div>
+  <div class="form-group">
+    <label for="scoremin">scoremin</label>
+    <input type="number" class="form-control" id="scoremin" placeholder="Entrez un score minimum" value="{{action.attributes.scoremin}}" required>
+  </div> 
+  <button class="btn btn-default">Valider</button>
+  </form>
