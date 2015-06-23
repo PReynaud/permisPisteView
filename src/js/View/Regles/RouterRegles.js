@@ -6,6 +6,7 @@ var Router = Backbone.Router.extend({
 	routes: {
 		"Regles": "Regles",
 		"Regles/Ajout": "AjoutRegle",
+		"Regles/Modifier/:id": "ModifRegle",
 		"Regles/:id": "Regle"
 	},
 
@@ -26,6 +27,11 @@ var Router = Backbone.Router.extend({
 	AjoutRegle: function(){
 		this.regle = new AjoutRegle();
 		this.regle.render();
+	},
+
+	ModifRegle: function(id){
+		this.regle = new AjoutRegle();
+		this.regle.renderModif(id);
 	}
 });
 
