@@ -69,9 +69,8 @@ var view = Backbone.View.extend({
 			modalTitle: "Ajout",
 		 	modalBody: "L'ajout a été effectué avec succès"
 		});
-		modalView.on('hidden.bs.modal',function(e){
-			Backbone.history.navigate('#Regles', {trigger:true});
-		});
+		
+		Backbone.history.navigate('#Regles', {trigger:true});
 	},
 
 	showErrorModal: function(error){
