@@ -6,6 +6,7 @@ var Router = Backbone.Router.extend({
 	routes: {
 		"Indicateurs": "Indicateurs",
 		"Indicateurs/Ajout": "AjoutIndicateur",
+		"Indicateurs/Modifier/:id": "ModifIndicateur",
 		"Indicateurs/:id": "Indicateur"
 	},
 
@@ -26,6 +27,10 @@ var Router = Backbone.Router.extend({
 	AjoutIndicateur: function(){
 		this.Indicateur = new AjoutIndicateur();
 		this.Indicateur.render();
+	},
+	ModifIndicateur: function(id){
+		this.Indicateur = new AjoutIndicateur();
+		this.Indicateur.renderModif(id);
 	}
 });
 

@@ -22,7 +22,6 @@ var view = Backbone.View.extend({
 		    this.valid();
 		}, this));
 	},
-
 	renderModif: function(id){
 		var model = new regleModel({"id":id}).fetch({
 			success: _.bind(this.renderResultat, this)

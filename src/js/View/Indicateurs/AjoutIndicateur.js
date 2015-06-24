@@ -1,4 +1,5 @@
-var regleModel = require('../../Model/Indicateurs/Indicateur');
+var indicateurModel = require('../../Model/Indicateurs/Indicateur');
+var actionModel= require ('../../Model/Actions/ActionsList')
 var template = require('./AjoutIndicateur.hbs');
 var modal = require('../Global/modal.js');
 
@@ -18,45 +19,64 @@ var view = Backbone.View.extend({
 		this.$content.html(template());
 		this.$pageName.html("Ajout Indicateur");
 		this.$title.html("Ajouter un Indicateur");
+		var actionmodel= new actionModel().fetch({
+			success: _.bind(this.renderList, this)
+		});
 
-		var $submitButton = $('#submitButton');
+		var $formAjoutIndicateur= $('#formAjoutIndicateur');
 
-		$submitButton.click(_.bind(function(event){
+		$formAjoutIndicateur.submit(_.bind(function(event){
 		    this.valid();
 		}, this));
 	},
-
-	valid: function(e){
-		var libRegle = $('#libIndicateur').val();
-		var scoreAction = $('#actionIndicateur').val();
-
-		var model = new regleModel();
-		model.save({"libIndicateur":libRegle, "actionIndicateur":scoreAction}, {
-			success: this.showModal,
-			error: this.showErrorModal
+	renderList: function(response){
+		$(this.content).html(template({actions: response.toArray()}));
+		console.log(response.toArray());
+	},
+	renderModif: function(id){
+		var model = new indicateurModel({"id":id}).fetch({
+			success: _.bind(this.renderResultat, this)
 		});
-
-		/* Seconde méthode pour requêter, peut valloir le coup de la garder au cas ou...
-		var info = {
-			    libregle: "gerq", 
-			    scoremin: "15"
-		};
-		$.ajax({
-			type: "POST",
-			url: "http://localhost:8080/Regle/",
-			data: JSON.stringify(info),
-			dataType: "application/json",
-			contentType: "application/json"
-		});*/
+		this.$pageName.html("Modifier Indicateur");
+		this.$title.html("Modifier un Indicateur");
+		this.idIndicateur=id;
+	},
+	valid: function(e){
+		var libIndicateur = $('#libIndicateur').val();
+		var scoreAction = $('#actionIndicateur').val();
+		var libPoids=$('#poidsIndicateur').val();
+		var model = new indicateurModel();
+		if(this.idIndicateur===undefined)
+		{
+			model.save({"libIndicateur":libIndicateur, "actionIndicateur":scoreAction ,"poidsIndicateur":libPoids}, {
+				success: this.showModal,
+				error: this.showErrorModal
+			});
+		}
+		else
+		{
+			model.save({"id":this.idIndicateur,"libIndicateur":libIndicateur, "actionIndicateur":scoreAction ,"poidsIndicateur":libPoids}, {
+				success: this.showModal,
+				error: this.showErrorModal
+			});
+		}
 
 		return true;
 	},
+	renderResultat: function(indicateur){
+		this.$content.html(template({indicateur}));
+		var $formAjoutIndicateur = $('#formAjoutIndicateur');
 
+		$formAjoutIndicateur.submit(_.bind(function(event){
+		    this.valid();
+		}, this));
+	},
 	showModal: function(){
 		var modalView = new modal({
 			modalTitle: "Ajout",
 		 	modalBody: "L'ajout a été effectué avec succès"
 		});
+		Backbone.history.navigate('#Indicateurs', {trigger:true});
 	},
 
 	showErrorModal: function(error){
