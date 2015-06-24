@@ -1,4 +1,5 @@
 var actionModel = require('../../Model/Actions/Action');
+var actionsModel = require('../../Model/Actions/ActionsList');
 var template = require('./AjoutAction.hbs');
 var modal = require('../Global/modal.js');
 
@@ -15,7 +16,6 @@ var view = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(){
-		this.$content.html(template());
 		this.$pageName.html("Ajout Action");
 		this.$title.html("Ajouter une Action");
 
@@ -27,9 +27,10 @@ var view = Backbone.View.extend({
 	},
 
 	renderModif: function(id){
-		var model = new actionModel({"id":id}).fetch({
-			success: _.bind(this.renderResultat, this)
-		});
+		$.when(new actionModel({"id":id}).fetch(),new actionsModel().fetch())
+		.done(_.bind(function(action, actions){
+			this.renderResultat(action,actions);
+		},this));		
 		this.$pageName.html("Modifier Action");
 		this.$title.html("Modifier une Action");
 		this.idAction=id;
@@ -56,8 +57,8 @@ var view = Backbone.View.extend({
 		return true;
 	},
 
-	renderResultat: function(action){
-		this.$content.html(template({action})); /*,{actions: response.toArray()})*/
+	renderResultat: function(response,responseList){
+		this.$content.html(template({action: response[0], actions:responseList[0]}));
 		var $formAjoutAction = $('#formAjoutAction');
 
 		$formAjoutAction.submit(_.bind(function(event){

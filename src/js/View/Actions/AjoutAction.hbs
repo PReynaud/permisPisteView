@@ -3,7 +3,7 @@
     <select class="form-control"> <!-- null si sélectionne rien -->
       <option value=null> Aucun </option>
       {{#each actions}}
-        <option>{{attributes.numaction}} {{attributes.libaction}}</option>
+        <option>{{numaction}} {{libaction}}</option>
       {{/each}}
     </select>
     <!-- <label for="actNumaction">actNumaction</label>
@@ -11,11 +11,11 @@
   </div>
   <div class="form-group">
     <label for="libaction">libaction</label>
-    <input type="text" class="form-control" id="libaction" placeholder="Entrez un libellé" value="{{action.attributes.libaction}}" required>
+    <input type="text" class="form-control" id="libaction" placeholder="Entrez un libellé" value="{{action.libaction}}" required>
   </div>
   <div class="form-group">
     <label for="scoremin">scoremin</label>
-    <input type="number" class="form-control" id="scoremin" placeholder="Entrez un score minimum" value="{{action.attributes.scoremin}}" required>
+    <input type="number" class="form-control" id="scoremin" placeholder="Entrez un score minimum" value="{{action.scoremin}}" required>
   </div> 
   <button class="btn btn-default">Valider</button>
   </form>
