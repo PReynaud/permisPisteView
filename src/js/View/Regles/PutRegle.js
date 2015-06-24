@@ -1,5 +1,5 @@
 var regleModel = require('../../Model/Regles/Regle');
-var template = require('./AjoutRegle.hbs');
+var template = require('./PutRegle.hbs');
 var modal = require('../Global/modal.js');
 
 var view = Backbone.View.extend({
@@ -7,19 +7,16 @@ var view = Backbone.View.extend({
 	$title : $('#title'),	
 	$content : $('#content'),
 
-	el: $('#formAjoutRegle'),
-
 	//Appelé au moment de l'instanciation	
 	initialize: function(){
 	},
 
 	//Fonction chargée du rendu
 	render: function(){
-		this.$content.html(template());
 		this.$pageName.html("Ajout Règle");
 		this.$title.html("Ajouter une Règle");
 
-		var $formAjoutRegle = $('#formAjoutRegle');
+		var $formAjoutRegle = $('#formPutRegle');
 
 		$formAjoutRegle.submit(_.bind(function(event){
 		    this.valid();
@@ -57,26 +54,25 @@ var view = Backbone.View.extend({
 
 	renderResultat: function(regle){
 		this.$content.html(template({regle}));
-		var $formAjoutRegle = $('#formAjoutRegle');
+		var $formModifRegle = $('#formPutRegle');
 
-		$formAjoutRegle.submit(_.bind(function(event){
+		$formModifRegle.submit(_.bind(function(event){
 		    this.valid();
 		}, this));
 	},
 
 	showModal: function(){
 		var modalView = new modal({
-			modalTitle: "Ajout",
-		 	modalBody: "L'ajout a été effectué avec succès"
+			modalTitle: "Succès",
+		 	modalBody: "La modification a été effectué avec succès"
 		});
-		
 		Backbone.history.navigate('#Regles', {trigger:true});
 	},
 
-	showErrorModal: function(error){
+	showErrorModal: function(collection, error){
 		var modalView = new modal({
-			modalTitle: "Ajout",
-		 	modalBody: "Erreur lors de l'ajout : " + error,
+			modalTitle: "Erreur "+ error.status,
+		 	modalBody: "Erreur lors de la modification de la règle "+collection.attributes.libregle+" : " + error.statusText,
 		 	modalError: true
 		});
 	}
