@@ -17,9 +17,11 @@ var view = Backbone.View.extend({
 	//Fonction chargée du rendu
 	render: function(){
 		//this.$content.html(template());
-		var model = new actionsModel().fetch({
-			success: _.bind(this.renderResultat, this)
-		});
+
+		$.when(null,new actionsModel().fetch())
+		.done(_.bind(function(action, actions){
+			this.renderResultat(null,actions);
+		},this));
 		this.$pageName.html("Ajout Action");
 		this.$title.html("Ajouter une Action");
 
@@ -68,14 +70,11 @@ var view = Backbone.View.extend({
 	},
 
 	renderResultat: function(response,responseList){
-		console.log(responseList);
-		console.log(response.toArray());
-		if(responseList === undefined){
+		if(response === null){
 			console.log(response);
-				this.$content.html(template({actions:responseList}));
+				this.$content.html(template({actions:responseList[0]}));
 
 		}else{
-console.log("test");
 		// Enleve l'id courrant de la liste
 		for(var i = 0; i <responseList[0].length; i++) {
       		if(responseList[0][i].numaction === response[0].numaction) {
