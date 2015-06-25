@@ -1,6 +1,6 @@
 var Actions = require('./Actions');
 var Action = require('./Action');
-var AjoutAction = require('./AjoutAction');
+var PutAction = require('./PutAction');
 var DeleteAction = require('./DeleteAction');
 
 var Router = Backbone.Router.extend({
@@ -27,12 +27,12 @@ var Router = Backbone.Router.extend({
 	},
 
 	AjoutAction: function(){
-		this._action = new AjoutAction();
+		this._action = new PutAction();
 		this._action.render();
 	},
 
 	ModifAction: function(id){
-		this._action = new AjoutAction();
+		this._action = new PutAction();
 		this._action.renderModif(id);
 	},
 

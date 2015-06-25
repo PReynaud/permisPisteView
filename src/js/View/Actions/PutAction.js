@@ -1,6 +1,6 @@
 var actionModel = require('../../Model/Actions/Action');
 var actionsModel = require('../../Model/Actions/ActionsList');
-var template = require('./AjoutAction.hbs');
+var template = require('./PutAction.hbs');
 var modal = require('../Global/modal.js');
 
 var view = Backbone.View.extend({
@@ -8,7 +8,7 @@ var view = Backbone.View.extend({
 	$title : $('#title'),	
 	$content : $('#content'),
 
-	el: $('#formAjoutAction'),
+	el: $('#formPutAction'),
 
 	//Appelé au moment de l'instanciation	
 	initialize: function(){
@@ -69,7 +69,7 @@ var view = Backbone.View.extend({
 			this.$content.html(template({action: response[0], actions:responseList[0]}));
 			$("#actNumaction option[value='"+response[0].actNumaction+"']").attr("selected", "selected");
 		}
-		$('#formAjoutAction').submit(_.bind(function(event){
+		$('#formPutAction').submit(_.bind(function(event){
 		    this.valid();
 		}, this));
 	},
