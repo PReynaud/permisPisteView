@@ -1,6 +1,6 @@
 var Regles = require('./Regles');
 var Regle = require('./Regle');
-var AjoutRegle = require('./PutRegle');
+var PutRegle = require('./PutRegle');
 var DeleteRegle = require('./DeleteRegle');
 
 var Router = Backbone.Router.extend({
@@ -27,12 +27,12 @@ var Router = Backbone.Router.extend({
 	},
 
 	AjoutRegle: function(){
-		this.regle = new AjoutRegle();
+		this.regle = new PutRegle();
 		this.regle.render();
 	},
 
 	ModifRegle: function(id){
-		this.regle = new AjoutRegle();
+		this.regle = new PutRegle();
 		this.regle.renderModif(id);
 	},
 

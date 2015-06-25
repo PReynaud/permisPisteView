@@ -7,28 +7,30 @@ var view = Backbone.View.extend({
 	$title : $('#title'),	
 	$content : $('#content'),
 
+	el: $('#formPutRegle'),
+
 	//Appelé au moment de l'instanciation	
 	initialize: function(){
 	},
 
 	//Fonction chargée du rendu
 	render: function(){
-		this.$pageName.html("Ajout Règle");
-		this.$title.html("Ajouter une Règle");
-
-		var $formAjoutRegle = $('#formPutRegle');
-
-		$formAjoutRegle.submit(_.bind(function(event){
-		    this.valid();
-		}, this));
+		$.when(null)
+		.done(_.bind(function(regle){
+			this.renderResultat(null);
+		},this));
+		this.$pageName.html("Ajout Regle");
+		this.$title.html("Ajouter une Regle");
 	},
+
 	renderModif: function(id){
-		var model = new regleModel({"id":id}).fetch({
-			success: _.bind(this.renderResultat, this)
-		});
-		this.$pageName.html("Modifier Règle");
-		this.$title.html("Modifier une Règle");
-		this.idRegle=id;
+		$.when(new regleModel({"id":id}).fetch())
+		.done(_.bind(function(regle){
+			this.renderResultat(regle);
+		},this));		
+		this.$pageName.html("Modifier Regle");
+		this.$title.html("Modifier une Regle");
+		this.idAction=id;
 	},
 
 	valid: function(e){
@@ -52,26 +54,29 @@ var view = Backbone.View.extend({
 	},
 
 	renderResultat: function(regle){
-		this.$content.html(template({regle}));
-		var $formModifRegle = $('#formPutRegle');
-
-		$formModifRegle.submit(_.bind(function(event){
+		if(regle === null){
+			this.$content.html(template());
+		}else{
+			this.$content.html(template({regle:regle}));
+		}
+		$('#formPutRegle').submit(_.bind(function(event){
 		    this.valid();
 		}, this));
 	},
 
 	showModal: function(){
 		var modalView = new modal({
-			modalTitle: "Succès",
-		 	modalBody: "La modification a été effectué avec succès"
+			modalTitle: "Ajout",
+		 	modalBody: "L'ajout a été effectué avec succès"
 		});
+		
 		Backbone.history.navigate('#Regles', {trigger:true});
 	},
 
-	showErrorModal: function(collection, error){
+	showErrorModal: function(error){
 		var modalView = new modal({
-			modalTitle: "Erreur "+ error.status,
-		 	modalBody: "Erreur lors de la modification de la règle "+collection.attributes.libregle+" : " + error.statusText,
+			modalTitle: "Ajout",
+		 	modalBody: "Erreur lors de l'ajout : " + error,
 		 	modalError: true
 		});
 	}
