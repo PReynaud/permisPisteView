@@ -22,12 +22,6 @@ var view = Backbone.View.extend({
 		},this));
 		this.$pageName.html("Ajout Action");
 		this.$title.html("Ajouter une Action");
-
-		var $formAjoutAction = $('#formAjoutAction');
-
-		$formAjoutAction.submit(_.bind(function(event){
-		    this.valid();
-		}, this));
 	},
 
 	renderModif: function(id){
@@ -38,12 +32,6 @@ var view = Backbone.View.extend({
 		this.$pageName.html("Modifier Action");
 		this.$title.html("Modifier une Action");
 		this.idAction=id;
-
-		var $formAjoutAction = $('#formAjoutAction');
-
-		$formAjoutAction.submit(_.bind(function(event){
-		    this.valid();
-		}, this));
 	},
 
 	valid: function(e){
@@ -56,7 +44,7 @@ var view = Backbone.View.extend({
 			model.save({"actNumaction":actNumaction, "libaction":libaction, "scoremin":scoremin}, {
 				success: this.showModal,
 				error: this.showErrorModal
-			}); 
+			});
 		}
 		else{
 			model.save({"id":this.idAction, "actNumaction":actNumaction, "libaction":libaction, "scoremin":scoremin}, {
@@ -81,6 +69,9 @@ var view = Backbone.View.extend({
 			this.$content.html(template({action: response[0], actions:responseList[0]}));
 			$("#actNumaction option[value='"+response[0].actNumaction+"']").attr("selected", "selected");
 		}
+		$('#formAjoutAction').submit(_.bind(function(event){
+		    this.valid();
+		}, this));
 	},
 
 	showModal: function(){
