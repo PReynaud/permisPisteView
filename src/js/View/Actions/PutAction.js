@@ -1,14 +1,12 @@
 var actionModel = require('../../Model/Actions/Action');
 var actionsModel = require('../../Model/Actions/ActionsList');
 var template = require('./PutAction.hbs');
-var modal = require('../Global/modal.js');
+var modal = require('../Global/modalView.js');
 
 var view = Backbone.View.extend({
 	$pageName : $('title'),
 	$title : $('#title'),	
 	$content : $('#content'),
-
-	el: $('#formPutAction'),
 
 	//Appelé au moment de l'instanciation	
 	initialize: function(){
@@ -42,14 +40,14 @@ var view = Backbone.View.extend({
 		var model = new actionModel();
 		if (this.idAction===undefined){
 			model.save({"actNumaction":actNumaction, "libaction":libaction, "scoremin":scoremin}, {
-				success: this.showModal("Ajout"),
-				error: this.showErrorModal
+				success: new modal().showModal("Ajout", "#Actions"),
+				error: new modal().showErrorModal
 			});
 		}
 		else{
 			model.save({"id":this.idAction, "actNumaction":actNumaction, "libaction":libaction, "scoremin":scoremin}, {
-				success: this.showModal("Modifier"),
-				error: this.showErrorModal
+				success: new modal().showModal("Modifier", "#Actions"),
+				error: new modal().showErrorModal
 			});
 		} 
 		return true;
@@ -72,27 +70,6 @@ var view = Backbone.View.extend({
 		$('#formPutAction').submit(_.bind(function(event){
 		    this.valid();
 		}, this));
-	},
-
-	showModal: function(actionType){
-		var ArticleModalBody = "La";
-		if(actionType === "Ajout"){
-			ArticleModalBody = "L'";
-		}
-		var modalView = new modal({
-			modalTitle: actionType,
-		 	modalBody: ArticleModalBody+" "+actionType+" a été effectué avec succès"
-		});
-		
-		Backbone.history.navigate('#Actions', {trigger:true});
-	},
-
-	showErrorModal: function(error){
-		var modalView = new modal({
-			modalTitle: "Ajout/Modifier",
-		 	modalBody: "Erreur lors de l'ajout/modification : " + error,
-		 	modalError: true
-		});
 	}
 });
 

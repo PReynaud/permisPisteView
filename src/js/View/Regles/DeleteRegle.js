@@ -1,5 +1,5 @@
 var regleModel = require('../../Model/Regles/Regle');
-var modal = require('../Global/modal.js');
+var modal = require('../Global/modalView.js');
 
 var view = Backbone.View.extend({
 	render: function(id){
@@ -10,15 +10,11 @@ var view = Backbone.View.extend({
 	},
 
 	confirm:function(regle){
-		var modalView = new modal({
-			modalTitle: "Suppression",
-		 	modalBody: "Confirmer la suppression",
-		 	modalFooter: '<button type="button" class="btn btn-default" data-dismiss="modal" id="annulDelete">Annuler</button><a class="btn btn-danger btn-ok" id="confirmDelete" data-dismiss="modal">Supprimer</a>'
-		});
+		var modalView = new modal().showConfirmModal();
 		$('#confirmDelete').on('click',_.bind(function(e){
 			var model = new regleModel({"id":regle.id}).destroy({
 				success: _.bind(this.valid,this),
-				error: this.showErrorModal
+				error: new modal().showErrorModal
 			});
 		},this));
 		$('#annulDelete').on('click',_.bind(function(e){
@@ -27,20 +23,9 @@ var view = Backbone.View.extend({
 	},
 
 	valid:function(){
-		var modalView = new modal({
-			modalTitle: "Suppression",
-		 	modalBody: "Suppression effecuée"
-		});
+		var modalView = new modal().showEmptyModal("Suppression","Suppression effecuée");
 		$('.modal-backdrop').remove();
 		Backbone.history.navigate('#Regles', {trigger:true});
-	},
-
-	showErrorModal: function(error){
-		var modalView = new modal({
-			modalTitle: "Suppression",
-		 	modalBody: "Erreur lors de la suppression : " + error,
-		 	modalError: true
-		});
 	}
 });
 
