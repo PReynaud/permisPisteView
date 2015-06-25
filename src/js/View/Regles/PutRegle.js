@@ -1,6 +1,7 @@
 var regleModel = require('../../Model/Regles/Regle');
 var template = require('./PutRegle.hbs');
 var modal = require('../Global/modal.js');
+var config = require('../../configuration.js');
 
 var view = Backbone.View.extend({
 	$pageName : $('title'),
@@ -45,12 +46,6 @@ var view = Backbone.View.extend({
 			}); 
 		}
 		else{
-			/*model.save({"id":this.idRegle, "libregle":libRegle, "scoremin":scoreAction}, {
-				success: this.showModal,
-				error: this.showErrorModal
-			}, {
-			  type: 'PUT'
-			});*/
 			model.save({"id":this.idRegle, "libregle":libRegle, "scoremin":scoreAction}, {
 				success: this.showModal("Modifier"),
 				error: this.showErrorModal

@@ -1,4 +1,4 @@
-var indicateurModel = require('../../Model/Objectifs/Objectif');
+var objectifModel = require('../../Model/Objectifs/Objectif');
 var template = require('./Objectif.hbs');
 
 var view = Backbone.View.extend({
@@ -12,7 +12,7 @@ var view = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(id){
-		var model = new indicateurModel({"id":id}).fetch({
+		var model = new objectifModel({"id":id}).fetch({
 			success: _.bind(this.renderResultat, this)
 		});
 		$(this.pageName).html("Détail Objectif");
@@ -20,6 +20,7 @@ var view = Backbone.View.extend({
 	},
 
 	renderResultat: function(objectif){
+		//console.log(objectif);
 		$(this.content).html(template({objectif}));
 	}
 });
