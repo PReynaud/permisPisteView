@@ -24,13 +24,13 @@ var view = Backbone.View.extend({
 	},
 
 	renderModif: function(id){
+		this.idRegle=id;
 		$.when(new regleModel({"id":id}).fetch())
 		.done(_.bind(function(regle){
 			this.renderResultat(regle);
 		},this));		
 		this.$pageName.html("Modifier Regle");
 		this.$title.html("Modifier une Regle");
-		this.idAction=id;
 	},
 
 	valid: function(e){
@@ -40,13 +40,19 @@ var view = Backbone.View.extend({
 		var model = new regleModel();
 		if (this.idRegle===undefined){
 			model.save({"libregle":libRegle, "scoremin":scoreAction}, {
-				success: this.showModal,
+				success: this.showModal("Ajout"),
 				error: this.showErrorModal
 			}); 
 		}
 		else{
-			model.save({"id":this.idRegle, "libregle":libRegle, "scoremin":scoreAction}, {
+			/*model.save({"id":this.idRegle, "libregle":libRegle, "scoremin":scoreAction}, {
 				success: this.showModal,
+				error: this.showErrorModal
+			}, {
+			  type: 'PUT'
+			});*/
+			model.save({"id":this.idRegle, "libregle":libRegle, "scoremin":scoreAction}, {
+				success: this.showModal("Modifier"),
 				error: this.showErrorModal
 			});
 		} 
@@ -64,10 +70,14 @@ var view = Backbone.View.extend({
 		}, this));
 	},
 
-	showModal: function(){
+	showModal: function(actionType){
+		var ArticleModalBody = "La";
+		if(actionType === "Ajout"){
+			ArticleModalBody = "L'";
+		}
 		var modalView = new modal({
-			modalTitle: "Ajout",
-		 	modalBody: "L'ajout a été effectué avec succès"
+			modalTitle: actionType,
+		 	modalBody: ArticleModalBody+" "+actionType+" a été effectué avec succès"
 		});
 		
 		Backbone.history.navigate('#Regles', {trigger:true});
@@ -75,8 +85,8 @@ var view = Backbone.View.extend({
 
 	showErrorModal: function(error){
 		var modalView = new modal({
-			modalTitle: "Ajout",
-		 	modalBody: "Erreur lors de l'ajout : " + error,
+			modalTitle: "Ajout/Modification",
+		 	modalBody: "Erreur lors de l'ajout/modification : " + error,
 		 	modalError: true
 		});
 	}
