@@ -16,7 +16,6 @@ var view = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(){
-		this.$content.html(template());
 		this.$pageName.html("Ajout Indicateur");
 		this.$title.html("Ajouter un Indicateur");
 		var actionmodel= new actionModel().fetch({
@@ -30,8 +29,7 @@ var view = Backbone.View.extend({
 		}, this));
 	},
 	renderList: function(response){
-		$(this.content).html(template({actions: response.toArray()}));
-		console.log(response.toArray());
+		$(this.$content).html(template({actions: response.toArray()}));
 	},
 	renderModif: function(id){
 		var model = new indicateurModel({"id":id}).fetch({
@@ -43,6 +41,7 @@ var view = Backbone.View.extend({
 	},
 	valid: function(e){
 		var libIndicateur = $('#libIndicateur').val();
+		console.log($('#libIndicateur').val());
 		var scoreAction = $('#actionIndicateur').val();
 		var libPoids=$('#poidsIndicateur').val();
 		var model = new indicateurModel();
