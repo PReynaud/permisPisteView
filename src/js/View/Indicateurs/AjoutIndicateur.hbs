@@ -1,10 +1,10 @@
   <form id="formAjoutIndicateur" method="post">
   <div class="form-group">
     <label for="actionIndicateur">Action associé</label>
-    <select>
+    <select class="form-control" id="actionIndicateur">
       {{#each actions}}
 
-        <option value="{{attributes.numaction}}">{{attributes.libaction}}</option>
+        <option value="{{numaction}}">{{numaction}} {{libaction}}</option>
 
       {{/each}}
 
@@ -12,11 +12,11 @@
   </div>  
   <div class="form-group">
     <label for="libIndicateur">Libellé</label>
-    <input type="text" class="form-control" id="libIndicateur" placeholder="Entrez un libellé" required>
+    <input type="text" class="form-control" id="libIndicateur" placeholder="Entrez un libellé" value="{{indicateur.libindic}}" required>
   </div>
   <div class="form-group">
     <label for="poidsIndicateur">Poids</label>
-    <input type="text" class="form-control" id="poidsIndicateur" placeholder="Entrez un poids" required>
+    <input type="text" class="form-control" id="poidsIndicateur" placeholder="Entrez un poids" value="{{indicateur.poids}}" required>
   </div>
   <button id="submitButton" class="btn btn-default">Valider</button>
   </form>

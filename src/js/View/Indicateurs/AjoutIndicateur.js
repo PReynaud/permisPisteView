@@ -18,23 +18,16 @@ var view = Backbone.View.extend({
 	render: function(){
 		this.$pageName.html("Ajout Indicateur");
 		this.$title.html("Ajouter un Indicateur");
-		var actionmodel= new actionModel().fetch({
-			success: _.bind(this.renderList, this)
-		});
-
-		var $formAjoutIndicateur= $('#formAjoutIndicateur');
-
-		$formAjoutIndicateur.submit(_.bind(function(event){
-		    this.valid();
-		}, this));
-	},
-	renderList: function(response){
-		$(this.$content).html(template({actions: response.toArray()}));
+		$.when(null,new actionModel().fetch())
+		.done(_.bind(function(indicateur, response){
+		this.renderResultat(null,response);
+        },this));
 	},
 	renderModif: function(id){
-		var model = new indicateurModel({"id":id}).fetch({
-			success: _.bind(this.renderResultat, this)
-		});
+		$.when(new indicateurModel({"id":id}).fetch(),new actionModel().fetch())
+		.done(_.bind(function(indicateur, response){
+		this.renderResultat(indicateur,response);
+        },this));
 		this.$pageName.html("Modifier Indicateur");
 		this.$title.html("Modifier un Indicateur");
 		this.idIndicateur=id;
@@ -62,8 +55,16 @@ var view = Backbone.View.extend({
 
 		return true;
 	},
-	renderResultat: function(indicateur){
-		this.$content.html(template({indicateur}));
+	renderResultat: function(indicateur,response){
+		if(indicateur===null)
+		{
+			$(this.$content).html(template({actions: response[0]}));
+		}
+		else
+		{
+			this.$content.html(template({indicateur:indicateur[0],actions: response[0]}));
+			$("#actionIndicateur option[value='"+indicateur[0].numaction+"']").attr("selected", "selected");
+		}
 		var $formAjoutIndicateur = $('#formAjoutIndicateur');
 
 		$formAjoutIndicateur.submit(_.bind(function(event){
