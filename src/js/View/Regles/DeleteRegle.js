@@ -28,6 +28,9 @@ var view = Backbone.View.extend({
 			modalTitle: "Suppression",
 		 	modalBody: "Suppression effecuée"
 		});
+
+		$('.modal-backdrop').remove();
+		
 		Backbone.history.navigate('#Regles', {trigger:true});
 	},
 
