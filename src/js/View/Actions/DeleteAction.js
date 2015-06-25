@@ -1,24 +1,28 @@
-var ActionModel = require('../../Model/Actions/Action');
+var actionModel = require('../../Model/Actions/Action');
 var modal = require('../Global/modal.js');
 
 var view = Backbone.View.extend({
 	render: function(id){
-		var model = new ActionModel({"id":id}).fetch({
+		var model = new actionModel({"id":id}).fetch({
 			success: _.bind(this.confirm,this)
 		});
+
 	},
 
 	confirm:function(action){
 		var modalView = new modal({
 			modalTitle: "Suppression",
 		 	modalBody: "Confirmer la suppression",
-		 	modalFooter: '<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button><a class="btn btn-danger btn-ok" id="confirmDelete" data-dismiss="modal">Supprimer</a>'
+		 	modalFooter: '<button type="button" class="btn btn-default" data-dismiss="modal" id="annulDelete">Annuler</button><a class="btn btn-danger btn-ok" id="confirmDelete" data-dismiss="modal">Supprimer</a>'
 		});
 		$('#confirmDelete').on('click',_.bind(function(e){
-			var model = new ActionModel({"id":action.id}).destroy({
+			var model = new actionModel({"id":action.id}).destroy({
 				success: _.bind(this.valid,this),
 				error: this.showErrorModal
 			});
+		},this));
+		$('#annulDelete').on('click',_.bind(function(e){
+			Backbone.history.navigate('#Actions', {trigger:true});
 		},this));
 	},
 
@@ -27,9 +31,7 @@ var view = Backbone.View.extend({
 			modalTitle: "Suppression",
 		 	modalBody: "Suppression effecuée"
 		});
-
 		$('.modal-backdrop').remove();
-		
 		Backbone.history.navigate('#Actions', {trigger:true});
 	},
 
