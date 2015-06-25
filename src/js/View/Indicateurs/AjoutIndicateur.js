@@ -40,6 +40,7 @@ var view = Backbone.View.extend({
 		var model = new indicateurModel();
 		if(this.idIndicateur===undefined)
 		{
+			console.log(scoreAction);
 			model.save({"libIndicateur":libIndicateur, "actionIndicateur":scoreAction ,"poidsIndicateur":libPoids}, {
 				success: this.showModal,
 				error: this.showErrorModal
