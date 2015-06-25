@@ -16,8 +16,6 @@ var view = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(){
-		//this.$content.html(template());
-
 		$.when(null,new actionsModel().fetch())
 		.done(_.bind(function(action, actions){
 			this.renderResultat(null,actions);
@@ -71,28 +69,19 @@ var view = Backbone.View.extend({
 
 	renderResultat: function(response,responseList){
 		if(response === null){
-			console.log(response);
-				this.$content.html(template({actions:responseList[0]}));
-
+			this.$content.html(template({actions:responseList[0]}));
 		}else{
-		// Enleve l'id courrant de la liste
-		for(var i = 0; i <responseList[0].length; i++) {
-      		if(responseList[0][i].numaction === response[0].numaction) {
-		         responseList[0].splice(i, 1);
-		      }
-	  	}
-		this.$content.html(template({action: response[0], actions:responseList[0]}));
+
+			// Enleve l'id courrant de la liste
+			for(var i = 0; i <responseList[0].length; i++) {
+	      		if(responseList[0][i].numaction === response[0].numaction) {
+			         responseList[0].splice(i, 1);
+			    }
+		  	}
+			this.$content.html(template({action: response[0], actions:responseList[0]}));
+			$("#actNumaction option[value='"+response[0].actNumaction+"']").attr("selected", "selected");
 		}
 	},
-
-	/*renderResultatAjout: function(responseList){
-		$(this.content).html(template({actions: responseList.toArray()}));
-		var $formAjoutAction = $('#formAjoutAction');
-
-		$formAjoutAction.submit(_.bind(function(event){
-		    this.valid();
-		}, this));
-	},*/
 
 	showModal: function(){
 		var modalView = new modal({

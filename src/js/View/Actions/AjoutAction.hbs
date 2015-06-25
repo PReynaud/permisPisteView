@@ -1,13 +1,12 @@
   <form id="formAjoutAction" method="post">
   <div class="form-group">
-    <select class="form-control"> <!-- null si sélectionne rien -->
+   <label for="actNumaction">Action requise</label>
+    <select  class="form-control" id="actNumaction">
       <option value=null> Aucun </option>
       {{#each actions}}
-        <option>{{numaction}} {{libaction}}</option>
+        <option value={{numaction}}>{{numaction}} {{libaction}}</option>
       {{/each}}
     </select>
-    <!-- <label for="actNumaction">actNumaction</label>
-    <input type="number" class="form-control" id="actNumaction" placeholder="Entrez un numéro d'action" value="{{action.attributes.actNumaction}}"> -->
   </div>
   <div class="form-group">
     <label for="libaction">libaction</label>
