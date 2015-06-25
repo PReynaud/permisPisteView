@@ -16,9 +16,9 @@ var view = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(){
-		$.when(null)
+		$.when()
 		.done(_.bind(function(regle){
-			this.renderResultat(null);
+			this.renderResultat();
 		},this));
 		this.$pageName.html("Ajout Regle");
 		this.$title.html("Ajouter une Regle");
@@ -55,7 +55,7 @@ var view = Backbone.View.extend({
 	},
 
 	renderResultat: function(regle){
-		if(regle === null){
+		if(regle===undefined){
 			this.$content.html(template());
 		}else{
 			this.$content.html(template({regle:regle}));

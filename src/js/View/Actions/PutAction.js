@@ -16,18 +16,18 @@ var view = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(){
-		$.when(null,new actionsModel().fetch())
-		.done(_.bind(function(action, actions){
-			this.renderResultat(null,actions);
+		$.when(new actionsModel().fetch())
+		.done(_.bind(function(actions){
+			this.renderResultat(actions);
 		},this));
 		this.$pageName.html("Ajout Action");
 		this.$title.html("Ajouter une Action");
 	},
 
 	renderModif: function(id){
-		$.when(new actionModel({"id":id}).fetch(),new actionsModel().fetch())
-		.done(_.bind(function(action, actions){
-			this.renderResultat(action,actions);
+		$.when(new actionsModel().fetch(),new actionModel({"id":id}).fetch())
+		.done(_.bind(function(actions,action){
+			this.renderResultat(actions,action);
 		},this));		
 		this.$pageName.html("Modifier Action");
 		this.$title.html("Modifier une Action");
@@ -55,8 +55,8 @@ var view = Backbone.View.extend({
 		return true;
 	},
 
-	renderResultat: function(response,responseList){
-		if(response === null){
+	renderResultat: function(responseList, response){
+		if(response===undefined){
 			this.$content.html(template({actions:responseList[0]}));
 		}else{
 
