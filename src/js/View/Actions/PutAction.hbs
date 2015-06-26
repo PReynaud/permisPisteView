@@ -18,3 +18,40 @@
   </div> 
   <button class="btn btn-default">Valider</button>
   </form>
+
+  <hr>
+
+  <label for="numregle">Liste des règles de l'action</label>
+  <table class="table" id="tabRegle">
+    <thead>
+      <tr>
+        <th>Identifiant</th>
+        <th>Libellé</th>
+        <th>Score minimum</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {{#each regles}}
+      <tr>
+        <td>{{attributes.numregle}}</td><td>{{attributes.libregle}}</td><td>{{attributes.scoremin}}</td>
+        <td><a href="#Actions/Modifier/{{../action.numaction}}/Regle/Supprimer/{{attributes.numregle}}">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </a>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <form id="formPutRegle" method="post">
+    <div class="form-group">
+     <label for="numregle">Ajouter une Règle</label>
+      <select  class="form-control" id="numregle">
+        <option value=null> Aucun </option>
+        {{#each reglesTot}}
+          <option value={{numregle}}>{{numregle}} {{libregle}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <button class="btn btn-default">Ajouter</button>
+  </form>

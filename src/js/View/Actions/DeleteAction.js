@@ -1,4 +1,5 @@
 var actionModel = require('../../Model/Actions/Action');
+var possedeModel = require('../../Model/Possede/Possede');
 var modal = require('../Global/modal.js');
 
 var view = Backbone.View.extend({
@@ -7,6 +8,23 @@ var view = Backbone.View.extend({
 			success: _.bind(this.confirm,this)
 		});
 
+	},
+
+	renderPossede: function(id,iRegle){
+		var modalView = new modal({
+			modalTitle: "Suppression",
+		 	modalBody: "Confirmer la suppression",
+		 	modalFooter: '<button type="button" class="btn btn-default" data-dismiss="modal" id="annulDelete">Annuler</button><a class="btn btn-danger btn-ok" id="confirmDelete" data-dismiss="modal">Supprimer</a>'
+		});
+		$('#confirmDelete').on('click',_.bind(function(e){
+			var model = new possedeModel({"numaction":id, "numregle":iRegle}).destroy({
+				success: _.bind(this.valid,this),
+				error: this.showErrorModal
+			});
+		},this));
+		$('#annulDelete').on('click',_.bind(function(e){
+			Backbone.history.navigate('#Actions/Modifier/'+id, {trigger:true});
+		},this));
 	},
 
 	confirm:function(action){
@@ -22,6 +40,7 @@ var view = Backbone.View.extend({
 			});
 		},this));
 		$('#annulDelete').on('click',_.bind(function(e){
+			$('.modal-backdrop').remove();
 			Backbone.history.navigate('#Actions', {trigger:true});
 		},this));
 	},
@@ -31,6 +50,7 @@ var view = Backbone.View.extend({
 			modalTitle: "Suppression",
 		 	modalBody: "Suppression effecuée"
 		});
+		
 		$('.modal-backdrop').remove();
 		Backbone.history.navigate('#Actions', {trigger:true});
 	},

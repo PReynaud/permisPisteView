@@ -9,7 +9,8 @@ var Router = Backbone.Router.extend({
 		"Actions/Ajout": "AjoutAction",
 		"Actions/Modifier/:id": "ModifAction",
 		"Actions/Supprimer/:id": "SupprAction",
-		"Actions/:id": "Action"
+		"Actions/:id": "Action",
+		"Actions/Modifier/:id/Regle/Supprimer/:idRegle": "SupprActionRegle",
 	},
 
 	initialize: function(){
@@ -39,6 +40,11 @@ var Router = Backbone.Router.extend({
 	SupprAction: function(id){
 		this._action = new DeleteAction();
 		this._action.render(id);
+	},
+
+	SupprActionRegle: function(id, idRegle){
+		this._action = new DeleteAction();
+		this._action.renderPossede(id,idRegle);
 	}
 });
 
