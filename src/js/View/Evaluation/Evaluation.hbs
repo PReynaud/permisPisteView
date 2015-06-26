@@ -1,0 +1,31 @@
+  <form id="formChoixJeu" method="post">
+  <div class="form-group">
+    <label for="choixJeu">Choisir le jeu</label>
+    <select class="form-control" id="choixJeu">
+      {{#each jeux}}
+        <option value="{{attributes.numjeu}}">{{attributes.libellejeu}}</option>
+      {{/each}}
+    </select>
+  </div>  
+  <table class="table">
+  <thead>
+    <tr>
+      <th>Num</th>
+      <th>Mission</th>
+      <th>Objectifs</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+  <button id="submitButton" class="btn btn-default">Valider</button>
+  </form>

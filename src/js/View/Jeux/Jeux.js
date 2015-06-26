@@ -1,5 +1,6 @@
 var jeuxModel = require('../../Model/Jeux/JeuxList');
 var template = require('./Jeux.hbs');
+/*var missionModel=require('../../Model/Missions/MissionsList');*/
 
 var view = Backbone.View.extend({
 	pageName : $('title'),
@@ -12,15 +13,17 @@ var view = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(){
-		var model = new jeuxModel().fetch({
-			success: _.bind(this.renderResultat, this)
-		});
+		$.when(new jeuxModel().fetch())
+		.done(_.bind(function(jeux){
+			this.renderResultat(jeux);
+		},this));
 		$(this.pageName).html("Liste des Jeux");
 		$(this.title).html("Liste des Jeux");
 	},
 
 	renderResultat: function(response){
-		$(this.content).html(template({jeux: response.toArray()}));
+		console.log(response);
+		$(this.content).html(template({jeux:response}));
 	}
 });
 
