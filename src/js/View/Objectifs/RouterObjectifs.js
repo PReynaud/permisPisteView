@@ -9,7 +9,8 @@ var Router = Backbone.Router.extend({
 		"Objectifs/Ajout": "AjoutObjectif",
 		"Objectifs/Modifier/:id": "ModifObjectif",
 		"Objectifs/Supprimer/:id": "SupprObjectif",
-		"Objectifs/:id": "Objectif"
+		"Objectifs/:id": "Objectif",
+		"Objectifs/Modifier/:id/Action/Supprimer/:idAction": "SupprObjectifAction",
 	},
 
 	initialize: function(){
@@ -39,6 +40,11 @@ var Router = Backbone.Router.extend({
 	SupprObjectif: function(id){
 		this.objectif = new DeleteObjectif();
 		this.objectif.render(id);
+	},
+
+	SupprObjectifAction: function(id, idAction){
+		this.objectif = new DeleteObjectif();
+		this.objectif.renderEstAsso(id,idAction);
 	}
 });
 

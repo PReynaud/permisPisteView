@@ -12,6 +12,7 @@ var view = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(id){
+		//Recuperation
 		var model = new actionModel({"id":id}).fetch({
 			success: _.bind(this.renderResultat, this)
 		});

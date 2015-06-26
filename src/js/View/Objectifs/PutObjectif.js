@@ -1,6 +1,7 @@
 var objectifModel = require('../../Model/Objectifs/Objectif');
 var objectifsModel = require('../../Model/Objectifs/ObjectifsList');
 var actionModel = require('../../Model/Actions/ActionsList');
+var Est_associeModel = require('../../Model/Est_associe/Est_associe');
 var template = require('./PutObjectif.hbs');
 var modal = require('../Global/modal.js');
 
@@ -58,7 +59,13 @@ var view = Backbone.View.extend({
 	},
 
 	validAction: function(e){
-		//TODO: save est_associe(numaction, numobjectif)
+		var numaction = $('#numaction').val();
+
+		var model =  new Est_associeModel();
+		model.save({"numobjectif":this.idObjectif, "numaction":numaction}, {
+			success: this.showModal,
+			error: this.showErrorModal
+		});
 		return true;
 	},
 
@@ -89,7 +96,7 @@ var view = Backbone.View.extend({
 				listAction.add([action]);
 				count++;
 			}
-			
+						
 			// Passe les elments au hbs
 			if(count !==0 ){
 				this.$content.html(template({objectif: response[0],actionsTot:responseActionListTot[0],actions:listAction.models}));
