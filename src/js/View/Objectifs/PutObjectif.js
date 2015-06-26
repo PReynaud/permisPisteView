@@ -1,6 +1,6 @@
-/*var actionModel = require('../../Model/Actions/Action');
-var actionsModel = require('../../Model/Actions/ActionsList');
-var template = require('./PutAction.hbs');
+var objectifModel = require('../../Model/Objectifs/Objectif');
+var objectifsModel = require('../../Model/Objectifs/ObjectifsList');
+var template = require('./PutObjectif.hbs');
 var modal = require('../Global/modal.js');
 
 var view = Backbone.View.extend({
@@ -8,7 +8,7 @@ var view = Backbone.View.extend({
 	$title : $('#title'),	
 	$content : $('#content'),
 
-	el: $('#formPutAction'),
+	el: $('#formPutObjectif'),
 
 	//Appelé au moment de l'instanciation	
 	initialize: function(){
@@ -16,38 +16,36 @@ var view = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(){
-		$.when(null,new actionsModel().fetch())
-		.done(_.bind(function(action, actions){
-			this.renderResultat(null,actions);
+		$.when(null,new objectifsModel().fetch())
+		.done(_.bind(function(objectif, objectifs){
+			this.renderResultat(null,objectifs);
 		},this));
-		this.$pageName.html("Ajout Action");
-		this.$title.html("Ajouter une Action");
+		this.$pageName.html("Ajout Objectif");
+		this.$title.html("Ajouter un Objectif");
 	},
 
 	renderModif: function(id){
-		$.when(new actionModel({"id":id}).fetch(),new actionsModel().fetch())
-		.done(_.bind(function(action, actions){
-			this.renderResultat(action,actions);
+		$.when(new objectifModel({"id":id}).fetch(),new objectifsModel().fetch())
+		.done(_.bind(function(objectif, objectifs){
+			this.renderResultat(objectif,objectifs);
 		},this));		
-		this.$pageName.html("Modifier Action");
-		this.$title.html("Modifier une Action");
-		this.idAction=id;
+		this.$pageName.html("Modifier Objectif");
+		this.$title.html("Modifier un Objectif");
+		this.idObjectif=id;
 	},
 
 	valid: function(e){
-		var actNumaction = $('#actNumaction').val();
-		var libaction = $('#libaction').val();
-		var scoremin = $('#scoremin').val();
+		var libobjectif = $('#libobjectif').val();
 
-		var model = new actionModel();
-		if (this.idAction===undefined){
-			model.save({"actNumaction":actNumaction, "libaction":libaction, "scoremin":scoremin}, {
+		var model = new objectifModel();
+		if (this.idObjectif===undefined){
+			model.save({"libobjectif":libobjectif}, {
 				success: this.showModal,
 				error: this.showErrorModal
 			});
 		}
 		else{
-			model.save({"id":this.idAction, "actNumaction":actNumaction, "libaction":libaction, "scoremin":scoremin}, {
+			model.save({"id":this.idObjectif, "libobjectif":libobjectif}, {
 				success: this.showModal,
 				error: this.showErrorModal
 			});
@@ -57,19 +55,19 @@ var view = Backbone.View.extend({
 
 	renderResultat: function(response,responseList){
 		if(response === null){
-			this.$content.html(template({actions:responseList[0]}));
+			this.$content.html(template({objectifs:responseList[0]}));
 		}else{
 
 			// Enleve l'id courrant de la liste
 			for(var i = 0; i <responseList[0].length; i++) {
-	      		if(responseList[0][i].numaction === response[0].numaction) {
+	      		if(responseList[0][i].numobjectif === response[0].numobjectif) {
 			         responseList[0].splice(i, 1);
 			    }
 		  	}
-			this.$content.html(template({action: response[0], actions:responseList[0]}));
-			$("#actNumaction option[value='"+response[0].actNumaction+"']").attr("selected", "selected");
+			this.$content.html(template({objectif: response[0], objectifs:responseList[0]}));
+			//$("#actNumobjectif option[value='"+response[0].actNumobjectif+"']").attr("selected", "selected");
 		}
-		$('#formPutAction').submit(_.bind(function(event){
+		$('#formPutObjectif').submit(_.bind(function(event){
 		    this.valid();
 		}, this));
 	},
@@ -80,7 +78,7 @@ var view = Backbone.View.extend({
 		 	modalBody: "L'ajout a été effectué avec succès"
 		});
 		
-		Backbone.history.navigate('#Actions', {trigger:true});
+		Backbone.history.navigate('#Objectifs', {trigger:true});
 	},
 
 	showErrorModal: function(error){
@@ -92,4 +90,4 @@ var view = Backbone.View.extend({
 	}
 });
 
-module.exports = view; */
+module.exports = view; 

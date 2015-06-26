@@ -31,11 +31,18 @@ var view = Backbone.View.extend({
 		});
 
 		var listAction = new CollectionAction();
+		var count=0;
 		for (var element in response.attributes){
 			var action = new Action(response.attributes[element][1]);
 			listAction.add([action]);
+			count++;
 		}
-		$(this.content).html(template({objectif: response.attributes[0][2], actions:listAction.models}));
+		console.log(response);
+		if(count !==0 ){
+			$(this.content).html(template({objectif: response.attributes[0][2], actions:listAction.models}));
+		}else{
+			$(this.content).html(template({objectif: response.attributes}));
+		}
 	
 	}
 });

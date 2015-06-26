@@ -1,20 +1,16 @@
-<!--   <form id="formPutAction" method="post">
-  <div class="form-group">
-   <label for="actNumaction">Action requise</label>
-    <select  class="form-control" id="actNumaction">
+ <form id="formPutObjectif" method="post">
+  <!-- <div class="form-group">
+   <label for="actNumobjectif">Objectif requise</label>
+    <select  class="form-control" id="actNumobjectif">
       <option value=null> Aucun </option>
-      {{#each actions}}
-        <option value={{numaction}}>{{numaction}} {{libaction}}</option>
+      {{#each objectifs}}
+        <option value={{numobjectif}}>{{numobjectif}} {{libobjectif}}</option>
       {{/each}}
     </select>
-  </div>
+  </div> -->
   <div class="form-group">
-    <label for="libaction">libaction</label>
-    <input type="text" class="form-control" id="libaction" placeholder="Entrez un libellé" value="{{action.libaction}}" required>
+    <label for="libobjectif">libobjectif</label>
+    <input type="text" class="form-control" id="libobjectif" placeholder="Entrez un libellé" value="{{objectif.libobjectif}}" required>
   </div>
-  <div class="form-group">
-    <label for="scoremin">scoremin</label>
-    <input type="number" class="form-control" id="scoremin" placeholder="Entrez un score minimum" value="{{action.scoremin}}" required>
-  </div> 
   <button class="btn btn-default">Valider</button>
-  </form> -->
+</form>
