@@ -1,5 +1,6 @@
 var objectifModel = require('../../Model/Objectifs/Objectif');
 var objectifsModel = require('../../Model/Objectifs/ObjectifsList');
+var actionModel = require('../../Model/Actions/ActionsList');
 var template = require('./PutObjectif.hbs');
 var modal = require('../Global/modal.js');
 
@@ -16,18 +17,21 @@ var view = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(){
-		$.when(null,new objectifsModel().fetch())
-		.done(_.bind(function(objectif, objectifs){
-			this.renderResultat(null,objectifs);
+		$.when(new actionModel().fetch(),null,null)
+		.done(_.bind(function(actions,objectif,acionObjectif){
+			this.renderResultat(actions,null,null);
 		},this));
 		this.$pageName.html("Ajout Objectif");
 		this.$title.html("Ajouter un Objectif");
 	},
 
 	renderModif: function(id){
-		$.when(new objectifModel({"id":id}).fetch(),new objectifsModel().fetch())
-		.done(_.bind(function(objectif, objectifs){
-			this.renderResultat(objectif,objectifs);
+		var model = new objectifModel();
+		model.url = model.urlRoot+''+id+"/Action";
+
+		$.when(new actionModel().fetch(),new objectifModel({"id":id}).fetch(),model.fetch())
+		.done(_.bind(function(actions,objectif,acionObjectif){
+			this.renderResultat(actions,objectif,acionObjectif);
 		},this));		
 		this.$pageName.html("Modifier Objectif");
 		this.$title.html("Modifier un Objectif");
@@ -53,22 +57,53 @@ var view = Backbone.View.extend({
 		return true;
 	},
 
-	renderResultat: function(response,responseList){
-		if(response === null){
-			this.$content.html(template({objectifs:responseList[0]}));
+	validAction: function(e){
+		//TODO: save est_associe(numaction, numobjectif)
+		return true;
+	},
+
+	renderResultat: function(responseActionListTot,response,responseActionList){
+		if(this.idObjectif===undefined){
+			this.$content.html(template({actionsTot:responseActionListTot[0]}));
 		}else{
 
-			// Enleve l'id courrant de la liste
-			for(var i = 0; i <responseList[0].length; i++) {
-	      		if(responseList[0][i].numobjectif === response[0].numobjectif) {
-			         responseList[0].splice(i, 1);
-			    }
+			// Enleve l'id les ids deja selectionnes de la liste
+			for(var i = 0; i <responseActionListTot[0].length; i++) {
+				for(var j = 0; j <responseActionList[0].length; j++) {
+		      		if(responseActionListTot[0][i].numaction === responseActionList[0].numaction) {
+				         responseActionListTot[0].splice(i, 1);
+				    }
+				}
 		  	}
-			this.$content.html(template({objectif: response[0], objectifs:responseList[0]}));
-			//$("#actNumobjectif option[value='"+response[0].actNumobjectif+"']").attr("selected", "selected");
+
+		  	// Recuperer une liste d'action de l'objectif plus lisible
+		  	var Action = Backbone.Model.extend({
+	  		});
+			var CollectionAction = Backbone.Collection.extend({
+			  model: Action
+			});
+			var count = 0;
+			var listAction = new CollectionAction();
+			for (var i = 0; i <  responseActionList[0].length; i++) {
+				var action = new Action(responseActionList[0][i][1]);
+				listAction.add([action]);
+				count++;
+			}
+			
+			// Passe les elments au hbs
+			if(count !==0 ){
+				this.$content.html(template({objectif: response[0],actionsTot:responseActionListTot[0],actions:listAction.models}));
+			}else{
+				this.$content.html(template({objectif: response[0],actionsTot:responseActionListTot[0]}));
+			}
 		}
+
 		$('#formPutObjectif').submit(_.bind(function(event){
 		    this.valid();
+		}, this));
+
+		$('#formPutAction').submit(_.bind(function(event){
+		    this.validAction();
 		}, this));
 	},
 

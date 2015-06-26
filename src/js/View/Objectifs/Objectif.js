@@ -35,7 +35,6 @@ var view = Backbone.View.extend({
 		var count = 0;
 		var listAction = new CollectionAction();
 		for (var i = 0; i <  responseActions[0].length; i++) {
-			console.log(responseActions[0][i][1]);
 			var action = new Action(responseActions[0][i][1]);
 			listAction.add([action]);
 			count++;
