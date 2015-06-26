@@ -12,16 +12,31 @@ var view = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(id){
-		var model = new objectifModel({"id":id}).fetch({
+		var model = new objectifModel();
+		model.url = model.urlRoot+''+id+"/Action";
+		model.fetch({
 			success: _.bind(this.renderResultat, this)
 		});
 		$(this.pageName).html("Détail Objectif");
 		$(this.title).html("Informations Objectif");
 	},
 
-	renderResultat: function(objectif){
-		//console.log(objectif);
-		$(this.content).html(template({objectif}));
+	renderResultat: function(response){
+
+		var Action = Backbone.Model.extend({
+	  	});
+
+		var CollectionAction = Backbone.Collection.extend({
+		  model: Action
+		});
+
+		var listAction = new CollectionAction();
+		for (var element in response.attributes){
+			var action = new Action(response.attributes[element][1]);
+			listAction.add([action]);
+		}
+		$(this.content).html(template({objectif: response.attributes[0][2], actions:listAction.models}));
+	
 	}
 });
 

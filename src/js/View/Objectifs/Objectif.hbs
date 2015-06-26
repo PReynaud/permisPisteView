@@ -8,17 +8,16 @@
 	</thead>
 	<tbody>
 			<tr>
-				<td>{{objectif.attributes.numobjectif}}</td>
-				<td>{{objectif.attributes.libobjectif}}</td>
+				<td>{{objectif.numobjectif}}</td>
+				<td>{{objectif.libobjectif}}</td>
 				<td>
-					<table class="table">
+					<table class="table" id="tabAction">
 						<tbody>
-								<!-- <tr>
-									<td>{{objectif.attributes.numobjectif}}</td>
-								</tr>
-								<tr>
-									<td>{{objectif.attributes.numobjectif}}</td>
-								</tr> -->
+						{{#each actions}}
+							<tr>
+								<td>{{attributes.numaction}} {{attributes.libaction}}</td>
+							</tr>
+							{{/each}}
 						</tbody>
 					</table>
 				<td>
