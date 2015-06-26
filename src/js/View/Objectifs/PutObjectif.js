@@ -50,7 +50,7 @@ var view = Backbone.View.extend({
 			});
 		}
 		else{
-			model.save({"id":this.idObjectif, "libobjectif":libobjectif}, {
+			model.save({"numobjectif":this.idObjectif, "libobjectif":libobjectif}, {
 				success: this.showModal,
 				error: this.showErrorModal
 			});
@@ -71,7 +71,7 @@ var view = Backbone.View.extend({
 
 	renderResultat: function(responseActionListTot,response,responseActionList){
 		if(this.idObjectif===undefined){
-			this.$content.html(template({actionsTot:responseActionListTot[0]}));
+			this.$content.html(template());
 		}else{
 
 			// Enleve l'id les ids deja selectionnes de la liste

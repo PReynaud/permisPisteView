@@ -54,7 +54,7 @@ var view = Backbone.View.extend({
 			});
 		}
 		else{
-			model.save({"id":this.idAction, "actNumaction":actNumaction, "libaction":libaction, "scoremin":scoremin}, {
+			model.save({"numaction":this.idAction, "actNumaction":actNumaction, "libaction":libaction, "scoremin":scoremin}, {
 				success: this.showModal("Modifier"),
 				error: this.showErrorModal
 			});

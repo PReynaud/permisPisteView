@@ -40,7 +40,6 @@ var view = Backbone.View.extend({
 			});
 		},this));
 		$('#annulDelete').on('click',_.bind(function(e){
-			$('.modal-backdrop').remove();
 			Backbone.history.navigate('#Actions', {trigger:true});
 		},this));
 	},
@@ -52,7 +51,7 @@ var view = Backbone.View.extend({
 		});
 		
 		$('.modal-backdrop').remove();
-		Backbone.history.navigate('#Actions', {trigger:true});
+			Backbone.history.navigate('#Actions', {trigger:true});
 	},
 
 	showErrorModal: function(error){
