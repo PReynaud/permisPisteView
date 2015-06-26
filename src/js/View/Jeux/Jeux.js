@@ -1,6 +1,5 @@
 var jeuxModel = require('../../Model/Jeux/JeuxList');
 var template = require('./Jeux.hbs');
-/*var missionModel=require('../../Model/Missions/MissionsList');*/
 
 var view = Backbone.View.extend({
 	pageName : $('title'),
