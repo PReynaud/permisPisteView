@@ -118,22 +118,29 @@ var view = Backbone.View.extend({
 		}, this));
 	},
 
-	requestRegles: function(response){
-		/*for(var i=0;i<this.tempActionList.length; i++){
-			var tempAction = new actionModel();
-			tempAction.url = tempList.url + this.listObjectif.at(i).get("numobjectif") + "/Action";
-			promiseTab[promiseTab.length] = tempAction.fetch();
-		}*/
+	requestRegles: function(){
+		this.regleRequestList = new regleList();
+		var promiseArray = [];
+		for(var i = 0; i < this.actionRequestList.length; i++){
+			var tempRegleModel = new regleModel();
+			tempRegleModel.urlRoot = tempRegleModel.urlRoot + "Action/" + this.actionRequestList.at(i).get("numaction");
+			promiseArray[promiseArray.length] = tempRegleModel.fetch();
+		}
 
-		/*.done(_.bind(function(){
-			debugger;
-			var formChoixRegle = $('#formChoixRegle');
-			formChoixRegle.submit(_.bind(function(event){
-			    this.validMission();
-			}, this));
-		}, this));*/
-
-		debugger;
+		$.whenall(promiseArray).then(_.bind(function(response){
+			var responseArray = response[0];
+			for(var j = 0; j < responseArray.length; j++){
+				var tempRegleModel = new regleModel({
+					libregle: responseArray[j][0].libregle,
+					numregle: responseArray[j][0].numregle,
+					scoremin: responseArray[j][0].scoremin,
+					numaction: responseArray[j][1].numaction
+				});
+				this.regleRequestList.add(tempRegleModel);
+			}
+		}, this))
+		.done(
+		);
 	},
 
 	/* Clic sur le second bouton valider */ 
