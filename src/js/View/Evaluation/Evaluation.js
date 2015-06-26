@@ -93,42 +93,51 @@ var view = Backbone.View.extend({
 
 					$.when(tempObjectif2.fetch())
 						.then(_.bind(function(objectif,actions){
-							var tempActionList = new actionList();
+							this.tempActionList = new actionList();
 							for(var j = 0; j < objectif.length; j++){
-								/* On récupère toutes les règles de l'action en cours */
+
 								var tempAction = new actionModel({
 											numaction: objectif[j][1].numaction,
 											scoremin:  objectif[j][1].scoremin,
 											libaction: objectif[j][1].libaction
 										});
+
 								/*Ajout de l'action à la liste d'action*/
-								tempActionList.add(tempAction);
-								var tempRegleList = new regleList();
-								tempRegleList.url = tempRegleList.url + "Action/" + objectif[j][1].numaction;
-								$.when(tempRegleList.fetch())									
-									.done(_.bind(function(regles){
-										for(var l=0; l<tempActionList.length;l++){
-											if (tempActionList.models[l].get("numaction")==regles[0][1].numaction){
-												tempActionList.models[l].set("regleList",regles);
-												if (l==tempActionList.length){
-													debugger;
-													$(this.content).html(templateEvalMission({titre: this.selectedJeu.libellejeu}));
-												}
-												break;
-											}
-										}
-										
-									}),this);
+								this.tempActionList.add(tempAction);
 							}
 
-							for(var k = 0; k < this.tempListObjectif.length; k++){
-								if(this.tempListObjectif.at(k).get("numobjectif") == objectif[k][0].numobjectif){
-									this.tempListObjectif.at(k).set("listActions", tempActionList);
+							/* On récupère toutes les règles des actions */
+							this.tempRegleList = new regleList();
+							tempRegleList.url = tempRegleList.url + "Action/" + objectif[0][1].numaction;
+							$.when(tempRegleList.fetch())									
+								.done(_.bind(function(response){
+									if(response != []){
+										for(var i1 = 0; i1 < response.length; i1++){
+											var tempRegle = new regleModel({
+												numregle: response[i1][0].numregle,
+												libregle: response[i1][0].libregle,
+												scoremin: response[i1][0].scoremin,
+												numaction: response[i1][1].numaction
+											});
+											this.tempRegleList.add(tempRegle);
+										}
+									}
+								}, this));
+
+
+
+							setTimeout(_.bind(function(){
+								debugger;
+							    for(var k = 0; k < this.tempListObjectif.length; k++){
+									if(this.tempListObjectif.at(k).get("numobjectif") == objectif[k][0].numobjectif){
+										this.tempListObjectif.at(k).set("listActions", tempActionList);
+									}
 								}
-							}							
+							}, this), 5000);
+							
 						}, this));
 				}
-			}))
+			}));
 
 		var formChoixRegle = $('#formChoixRegle');
 		formChoixRegle.submit(_.bind(function(event){
