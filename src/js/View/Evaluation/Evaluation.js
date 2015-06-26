@@ -95,33 +95,35 @@ var view = Backbone.View.extend({
 						.then(_.bind(function(objectif,actions){
 							var tempActionList = new actionList();
 							for(var j = 0; j < objectif.length; j++){
-								var tempAction = new actionModel({
-									numaction: objectif[j][1].numaction,
-									scoremin:  objectif[j][1].scoremin,
-									libaction: objectif[j][1].libaction
-								});
-
 								/* On récupère toutes les règles de l'action en cours */
-								
+								var tempAction = new actionModel({
+											numaction: objectif[j][1].numaction,
+											scoremin:  objectif[j][1].scoremin,
+											libaction: objectif[j][1].libaction
+										});
+								/*Ajout de l'action à la liste d'action*/
+								tempActionList.add(tempAction);
 								var tempRegleList = new regleList();
-								tempRegleList.url = tempRegleList.url + "Action/" + tempAction.get("numaction");
+								tempRegleList.url = tempRegleList.url + "Action/" + objectif[j][1].numaction;
 								$.when(tempRegleList.fetch())									
 									.done(_.bind(function(regles){
-										tempAction.set("regleList",regles[0]);
-										tempActionList.add(tempAction);
-										if(j==objectif.length && i==this.tempListObjectif.length){
-											for(var k = 0; k < this.tempListObjectif.length; k++){
-												if(this.tempListObjectif.at(k).get("numobjectif") == objectif[k][0].numobjectif){
-													this.tempListObjectif.at(k).set("listActions", tempActionList);
-												}
-											}
+										/* Création de l'action*/
+										for(var l=0; l<tempActionList;l++){
 											debugger;
-											$(this.content).html(templateEvalMission({titre: this.selectedJeu.libellejeu}));
+											if (tempActionList[l]==regles[0][1].numaction){
+												tempActionList[l].set("regleList",regles[0][0]);
+												break;
+											}
 										}
+										$(this.content).html(templateEvalMission({titre: this.selectedJeu.libellejeu}));
 									}),this);
+							}
 
-								
-							}						
+							for(var k = 0; k < this.tempListObjectif.length; k++){
+								if(this.tempListObjectif.at(k).get("numobjectif") == objectif[k][0].numobjectif){
+									this.tempListObjectif.at(k).set("listActions", tempActionList);
+								}
+							}							
 						}, this));
 				}
 			}))
