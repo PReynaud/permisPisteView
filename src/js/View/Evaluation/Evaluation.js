@@ -107,15 +107,17 @@ var view = Backbone.View.extend({
 								tempRegleList.url = tempRegleList.url + "Action/" + objectif[j][1].numaction;
 								$.when(tempRegleList.fetch())									
 									.done(_.bind(function(regles){
-										/* Création de l'action*/
-										for(var l=0; l<tempActionList;l++){
-											debugger;
-											if (tempActionList[l]==regles[0][1].numaction){
-												tempActionList[l].set("regleList",regles[0][0]);
+										for(var l=0; l<tempActionList.length;l++){
+											if (tempActionList.models[l].get("numaction")==regles[0][1].numaction){
+												tempActionList.models[l].set("regleList",regles);
+												if (l==tempActionList.length){
+													debugger;
+													$(this.content).html(templateEvalMission({titre: this.selectedJeu.libellejeu}));
+												}
 												break;
 											}
 										}
-										$(this.content).html(templateEvalMission({titre: this.selectedJeu.libellejeu}));
+										
 									}),this);
 							}
 
