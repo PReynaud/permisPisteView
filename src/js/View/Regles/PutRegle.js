@@ -16,10 +16,7 @@ var view = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(){
-		$.when()
-		.done(_.bind(function(regle){
-			this.renderResultat();
-		},this));
+			this.renderResultat(undefined);
 		this.$pageName.html("Ajout Regle");
 		this.$title.html("Ajouter une Regle");
 	},

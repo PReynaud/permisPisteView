@@ -15,18 +15,13 @@ var view = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(idJeu){
-		$.when()
-		.done(_.bind(function(mission){
-			this.renderResultat();
-		},this));
+		this.renderResultat(undefined);
 		this.$pageName.html("Ajout mission");
 		this.$title.html("Ajouter un mission");
 		this.idJeu=idJeu;
 	},
 
 	renderModif: function(id,idJeu){
-		console.log(id);
-		console.log(idJeu);
 		$.when(new missionModel({"id":idJeu}).fetch())
 		.done(_.bind(function(mission){
 			this.renderResultat(mission);
