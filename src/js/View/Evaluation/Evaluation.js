@@ -75,65 +75,65 @@ var view = Backbone.View.extend({
 		missionObjectif.url = urlObjectifMission;
 
 		$.when(missionObjectif.fetch())
-			.then(_.bind(function(list, response){	
-				this.tempListObjectif = new objectifList();
+			.done(_.bind(this.requestActions, this));
+	},
 
-				/* On récupère toutes les objectifs de la mission et on la passe dans la collection backbone*/ 
-				for(var i = 0; i< list.length; i++){
-					var tempObjectif = new objectifModel({
-							libobjectif: list[i][2].libobjectif, numobjectif: list[i][2].numobjectif
+	requestActions: function(response){
+		this.listObjectif = response;
+		var tempList = new objectifList();
+		for(var i=0;i<response.length;i++){
+			var tempObjectifModel = new objectifModel({
+					libobjectif: response[i][2].libobjectif,
+					numobjectif: response[i][2].numobjectif
+			});
+			tempList.add(tempObjectifModel);
+		}
+		this.listObjectif = tempList;
+
+		var promiseTab = [];
+		this.actionRequestList = new actionList();
+		for(var i=0;i<this.listObjectif.length; i++){
+			var tempAction = new actionModel();
+			tempAction.url = tempList.url + this.listObjectif.at(i).get("numobjectif") + "/Action";
+			promiseTab[promiseTab.length] = tempAction.fetch();
+		}
+
+		$.whenall = function(arr) { return $.when.apply($, arr); };
+
+		$.whenall(promiseTab).then(_.bind(function(response){
+			for(var j = 0; j < response.length; j++){
+				/* On récupère toutes les règles de l'action en cours */
+				var tempAction = new actionModel({
+							numaction: response[0][j][1].numaction,
+							scoremin:  response[0][j][1].scoremin,
+							libaction: response[0][j][1].libaction
 						});
-					this.tempListObjectif.add(tempObjectif);
-				}
-
-				/* On récupère toutes les actions de nos objectifs */
-				for(var i = 0; i < this.tempListObjectif.length; i++){
-					var tempObjectif2 = this.tempListObjectif.at(i);
-					tempObjectif2.url = tempObjectif2.urlRoot + tempObjectif2.get("numobjectif") + "/Action";
-
-					$.when(tempObjectif2.fetch())
-						.then(_.bind(function(objectif,actions){
-							var tempActionList = new actionList();
-							for(var j = 0; j < objectif.length; j++){
-								/* On récupère toutes les règles de l'action en cours */
-								var tempAction = new actionModel({
-											numaction: objectif[j][1].numaction,
-											scoremin:  objectif[j][1].scoremin,
-											libaction: objectif[j][1].libaction
-										});
-								/*Ajout de l'action à la liste d'action*/
-								tempActionList.add(tempAction);
-								var tempRegleList = new regleList();
-								tempRegleList.url = tempRegleList.url + "Action/" + objectif[j][1].numaction;
-								$.when(tempRegleList.fetch())									
-									.done(_.bind(function(regles){
-										for(var l=0; l<tempActionList.length;l++){
-											if (tempActionList.models[l].get("numaction")==regles[0][1].numaction){
-												tempActionList.models[l].set("regleList",regles);
-												if (l==tempActionList.length){
-													debugger;
-													$(this.content).html(templateEvalMission({titre: this.selectedJeu.libellejeu}));
-												}
-												break;
-											}
-										}
-										
-									}),this);
-							}
-
-							for(var k = 0; k < this.tempListObjectif.length; k++){
-								if(this.tempListObjectif.at(k).get("numobjectif") == objectif[k][0].numobjectif){
-									this.tempListObjectif.at(k).set("listActions", tempActionList);
-								}
-							}							
-						}, this));
-				}
-			}))
-
-		var formChoixRegle = $('#formChoixRegle');
-		formChoixRegle.submit(_.bind(function(event){
-		    this.validMission();
+				/*Ajout de l'action à la liste d'action*/
+				this.actionRequestList.add(tempAction);
+			}
+			return this;
+		}, this))
+		.done(_.bind(function(){
+			this.requestRegles();
 		}, this));
+	},
+
+	requestRegles: function(response){
+		/*for(var i=0;i<this.tempActionList.length; i++){
+			var tempAction = new actionModel();
+			tempAction.url = tempList.url + this.listObjectif.at(i).get("numobjectif") + "/Action";
+			promiseTab[promiseTab.length] = tempAction.fetch();
+		}*/
+
+		/*.done(_.bind(function(){
+			debugger;
+			var formChoixRegle = $('#formChoixRegle');
+			formChoixRegle.submit(_.bind(function(event){
+			    this.validMission();
+			}, this));
+		}, this));*/
+
+		debugger;
 	},
 
 	/* Clic sur le second bouton valider */ 
