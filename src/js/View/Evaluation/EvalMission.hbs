@@ -1,7 +1,47 @@
 <h3>Evaluation de la mission</h3>
 <h2>{{titre}}</h2>
   <form id="formChoixRegle" method="post">
-  <table class="table">
+    <div class="row">
+      <div class="col-sm-3">
+        Num
+      </div>
+      <div class="col-sm-3">
+        Objectif
+      </div>
+      <div class="col-sm-3">
+        Actions
+      </div>
+      <div class="col-sm-3">
+        Règles
+      </div>
+    </div>
+  {{#each pouet}}
+    <div class="row">
+      <div class="col-sm-3">
+        
+      </div>
+      <div class="col-sm-3">
+        {{#each pouet2}}
+          <div class="row"></div>
+        {{/each}}
+      </div>
+      <div class="col-sm-3">
+        {{#each pouet2}}
+          {{#each pouet3}}
+            <div class="row"></div>
+          {{/each}}
+        {{/each}}
+      </div>
+      <div class="col-sm-3">
+        
+      </div>
+    </div>
+  {{/each}}
+
+  <button id="submitButton" class="btn btn-default">Valider</button>
+  </form>
+
+{{!-- <table class="table">
   <thead>
     <tr>
       <th>Num</th>
@@ -11,18 +51,12 @@
     </tr>
   </thead>
   <tbody>
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-</table>
-  <button id="submitButton" class="btn btn-default">Valider</button>
-  </form>
+  {{#each pouet}}
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  {{/each}}
+</table> --}}
