@@ -35,7 +35,6 @@ var view = Backbone.View.extend({
 	valid: function(e){
 		var libellejeu = $('#libellejeu').val();
 		var model = new jeuModel();
-		missionList.add([mission]);
 		if (this.idJeu===undefined){
 			model.save({"libellejeu":libellejeu}, {
 				success: this.showModal("Ajout"),

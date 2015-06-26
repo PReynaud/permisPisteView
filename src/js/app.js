@@ -6,6 +6,7 @@ var Indicateurs = require('./View/Indicateurs/RouterIndicateurs');
 var Objectifs = require('./View/Objectifs/RouterObjectifs');
 var Jeux=require('./View/Jeux/RouterJeux');
 var Evaluation = require('./View/Evaluation/RouterEvaluation');
+var Missions= require('./View/Missions/RouterMissions')
 
 var Router = Backbone.Router.extend({
 	routes: {
@@ -29,6 +30,7 @@ var reglesRouter = new Regles();
 var indicateursRouteur = new Indicateurs();
 var objectifsRouteur = new Objectifs();
 var evaluationRouteur = new Evaluation();
-var Jeux=new Jeux();
+var JeuxRouteur=new Jeux();
+var MissionsRouteur=new Missions();
 
 Backbone.history.start();
