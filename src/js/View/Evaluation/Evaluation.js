@@ -6,8 +6,11 @@ var templateBilanMission = require('./BilanMission.hbs');
 var templateBilanFinal = require('./BilanFinal.hbs');
 
 var missionObjectifCollection = require('../../Model/Objectifs/ObjectifMission');
-var missionModel = require('../../Model/Missions/Mission');
-var missionList = require('../../Model/Missions/MissionsList');
+var objectifModel = require('../../Model/Objectifs/Objectif');
+var objectifList = require('../../Model/Objectifs/ObjectifsList');
+
+var actionModel = require('../../Model/Actions/Action');
+var actionList = require('../../Model/Actions/ActionsList');
 
 var view = Backbone.View.extend({
 	pageName : $('title'),
@@ -64,32 +67,50 @@ var view = Backbone.View.extend({
 			_ entre chaque action et règles 
 		 */
 
-		 /*
-			$.when(new indicateurModel({"id":id}).fetch(),new actionModel().fetch())
-				.done(_.bind(function(indicateur, response){
-				this.renderResultat(indicateur,response);
-		        },this));
-		*/
-
 		var missionObjectif = new missionObjectifCollection();
 		var urlObjectifMission = missionObjectif.url + "/Mission/" + (this.currentMission + 1) + "/Objectif";
 		missionObjectif.url = urlObjectifMission;
 
 		$.when(missionObjectif.fetch())
-				.then(_.bind(function(list, response){					
-					debugger;
+				.then(_.bind(function(list, response){	
+					this.tempListObjectif = new objectifList();
 
-					var tempListMission = new missionList();
+					/* On récupère toutes les objectifs de la mission et on la passe dans la collection backbone*/ 
+					for(var i = 0; i< list.length; i++){
+						var tempObjectif = new objectifModel({
+								libobjectif: list[i][2].libobjectif, numobjectif: list[i][2].numobjectif
+							});
+						this.tempListObjectif.add(tempObjectif);
+					}
 
+					/* On récupère toutes les actions de nos objectifs */
+					for(var i = 0; i < this.tempListObjectif.length; i++){
+						var tempObjectif2 = this.tempListObjectif.at(i);
+						tempObjectif2.url = tempObjectif2.urlRoot + "" + tempObjectif2.get("numobjectif") + "/Action";
+						this.tempListObjectif.at(i).set("index", i);
 
-					var libobjectif = list[2].libobjectif;
-					var numobjectif = list[2].numobjectif;
+						$.when(tempObjectif2.fetch())
+							.then(_.bind(function(objectif,actions){
+								var tempActionList = new actionList();
 
-					var tempMission = new missionModel({libobjectif: libobjectif, numobjectif: numobjectif});
-					tempListMission.add(tempMission);
+								for(var i = 0; i < objectif.length; i++){
+									var tempAction = new actionModel({
+										numaction: objectif[i][1].numaction,
+										scoremin:  objectif[i][1].scoremin,
+										libaction: objectif[i][1].libaction
+									});
+									tempActionList.add(tempAction);
+								}
+
+								for(var i = 0; i < this.tempListObjectif.length; i++){
+									if(this.tempListObjectif.at(i).get("numobjectif") == objectif[i][0].numobjectif){
+										this.tempListObjectif.at(i).set("listActions", tempActionList);
+									}
+								}								
+							}, this));
+					}
 				}))
 				.done(function(){
-					debugger;
 				});
 
 
