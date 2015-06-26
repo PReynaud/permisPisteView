@@ -36,18 +36,19 @@ var view = Backbone.View.extend({
 		var libIndicateur = $('#libIndicateur').val();
 		var scoreAction = $('#actionIndicateur').val();
 		var libPoids=$('#poidsIndicateur').val();
+		console.log(libIndicateur+" "+scoreAction+" "+libPoids);
 		var model = new indicateurModel();
 		if(this.idIndicateur===undefined)
 		{
 			console.log(model);
-			model.save({"libIndicateur":libIndicateur, "actionIndicateur":scoreAction ,"poidsIndicateur":libPoids}, {
+			model.save({"libindic":libIndicateur, "numaction":scoreAction ,"poids":libPoids}, {
 				success: this.showModal,
 				error: this.showErrorModal
 			});
 		}
 		else
 		{
-			model.save({"id":this.idIndicateur,"libIndicateur":libIndicateur, "actionIndicateur":scoreAction ,"poidsIndicateur":libPoids}, {
+			model.save({"id":this.idIndicateur,"libindic":libIndicateur, "numaction":scoreAction ,"poids":libPoids}, {
 				success: this.showModal,
 				error: this.showErrorModal
 			});
