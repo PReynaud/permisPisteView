@@ -14,34 +14,37 @@ var view = Backbone.View.extend({
 	render: function(id){
 		var model = new objectifModel();
 		model.url = model.urlRoot+''+id+"/Action";
-		model.fetch({
-			success: _.bind(this.renderResultat, this)
-		});
+
+		$.when(new objectifModel({"id":id}).fetch(),model.fetch())
+		.done(_.bind(function(objectif,actions){
+			this.renderResultat(objectif,actions);
+		},this));
+		
+		this.idObjectif = id;
 		$(this.pageName).html("Détail Objectif");
 		$(this.title).html("Informations Objectif");
 	},
 
-	renderResultat: function(response){
-
+	renderResultat: function(response, responseActions){
 		var Action = Backbone.Model.extend({
 	  	});
 
 		var CollectionAction = Backbone.Collection.extend({
 		  model: Action
 		});
-
+		var count = 0;
 		var listAction = new CollectionAction();
-		var count=0;
-		for (var element in response.attributes){
-			var action = new Action(response.attributes[element][1]);
+		for (var i = 0; i <  responseActions[0].length; i++) {
+			console.log(responseActions[0][i][1]);
+			var action = new Action(responseActions[0][i][1]);
 			listAction.add([action]);
 			count++;
 		}
-		console.log(response);
+
 		if(count !==0 ){
-			$(this.content).html(template({objectif: response.attributes[0][2], actions:listAction.models}));
+			$(this.content).html(template({objectif: response[0], actions:listAction.models}));
 		}else{
-			$(this.content).html(template({objectif: response.attributes}));
+			$(this.content).html(template({objectif: response[0]}));
 		}
 	
 	}
