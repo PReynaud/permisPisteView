@@ -34,13 +34,12 @@ var view = Backbone.View.extend({
 	},
 	valid: function(e){
 		var libIndicateur = $('#libIndicateur').val();
-		console.log($('#libIndicateur').val());
 		var scoreAction = $('#actionIndicateur').val();
 		var libPoids=$('#poidsIndicateur').val();
 		var model = new indicateurModel();
 		if(this.idIndicateur===undefined)
 		{
-			console.log(scoreAction);
+			console.log(model);
 			model.save({"libIndicateur":libIndicateur, "actionIndicateur":scoreAction ,"poidsIndicateur":libPoids}, {
 				success: this.showModal,
 				error: this.showErrorModal
