@@ -12,6 +12,9 @@ var objectifList = require('../../Model/Objectifs/ObjectifsList');
 var actionModel = require('../../Model/Actions/Action');
 var actionList = require('../../Model/Actions/ActionsList');
 
+var regleModel = require('../../Model/Regles/Regle');
+var regleList = require('../../Model/Regles/ReglesList');
+
 var view = Backbone.View.extend({
 	pageName : $('title'),
 	title : $('#title'),
@@ -86,7 +89,7 @@ var view = Backbone.View.extend({
 					/* On récupère toutes les actions de nos objectifs */
 					for(var i = 0; i < this.tempListObjectif.length; i++){
 						var tempObjectif2 = this.tempListObjectif.at(i);
-						tempObjectif2.url = tempObjectif2.urlRoot + "" + tempObjectif2.get("numobjectif") + "/Action";
+						tempObjectif2.url = tempObjectif2.urlRoot + tempObjectif2.get("numobjectif") + "/Action";
 						this.tempListObjectif.at(i).set("index", i);
 
 						$.when(tempObjectif2.fetch())
@@ -99,8 +102,19 @@ var view = Backbone.View.extend({
 										scoremin:  objectif[i][1].scoremin,
 										libaction: objectif[i][1].libaction
 									});
+
+									/* On récupère toutes les règles de l'action en cours */
+									debugger;
+									var tempRegleList = new regleList();
+									tempRegleList.url = tempRegleList.urlRoot + "Regle/Action/" + tempAction.get("numaction");
+									$.when(tempRegleList.fetch())
+										.done(function(){
+											debugger;
+										});
+
 									tempActionList.add(tempAction);
 								}
+
 
 								for(var i = 0; i < this.tempListObjectif.length; i++){
 									if(this.tempListObjectif.at(i).get("numobjectif") == objectif[i][0].numobjectif){
@@ -111,6 +125,7 @@ var view = Backbone.View.extend({
 					}
 				}))
 				.done(function(){
+					debugger;
 				});
 
 
