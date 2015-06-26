@@ -1,5 +1,6 @@
 var actionModel = require('../../Model/Actions/Action');
 var actionsModel = require('../../Model/Actions/ActionsList');
+var reglesModel = require('../../Model/Regles/ReglesList');
 var template = require('./PutAction.hbs');
 var modal = require('../Global/modal.js');
 
