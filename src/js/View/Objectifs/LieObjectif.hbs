@@ -1,0 +1,12 @@
+ <form id="formLieObjectif" method="post">
+  <div class="form-group">
+    <label for="actionIndicateur">Objectif associé</label>
+    <select class="form-control" id="actionIndicateur">
+      {{#each Objectifstot}}
+        <option value="{{numobjectif}}">{{numobjectif}} {{libobjectif}}</option>
+
+      {{/each}}
+
+    </select>
+  <button id="submitButton" class="btn btn-default">Lié</button>
+  </form>

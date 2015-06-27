@@ -70,7 +70,8 @@ var view = Backbone.View.extend({
 		 	modalBody: ArticleModalBody+" "+missionType+" a été effectué avec succès"
 		});
 		
-		Backbone.history.navigate('#Jeux', {trigger:true});
+		Backbone.history.navigate('#Jeux');
+		window.location.reload();
 	},
 
 	showErrorModal: function(error){

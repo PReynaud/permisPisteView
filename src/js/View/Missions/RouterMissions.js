@@ -12,7 +12,7 @@ var Router = Backbone.Router.extend({
 	initialize: function(){
 
 	},
-	Mission: function(id){
+	Mission: function(idJeu,id){
 		this.Mission = new Mission();
 		this.Mission.render(id);
 	},

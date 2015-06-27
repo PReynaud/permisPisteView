@@ -1,5 +1,6 @@
 var Objectifs = require('./Objectifs');
 var Objectif = require('./Objectif');
+var LieObjectif=require('./LieObjectif')
 var PutObjectif = require('./PutObjectif');
 var DeleteObjectif = require('./DeleteObjectif');
 
@@ -11,6 +12,7 @@ var Router = Backbone.Router.extend({
 		"Objectifs/Supprimer/:id": "SupprObjectif",
 		"Objectifs/:id": "Objectif",
 		"Objectifs/Modifier/:id/Action/Supprimer/:idAction": "SupprObjectifAction",
+		"Jeux/:idJeu/Missions/Modifier/:idMission/Objectifs/Ajout": "LieObjectifMission",
 	},
 
 	initialize: function(){
@@ -30,6 +32,10 @@ var Router = Backbone.Router.extend({
 	AjoutObjectif: function(){
 		this.objectif = new PutObjectif();
 		this.objectif.render();
+	},
+	LieObjectifMission: function(idJeu,idMission){
+		this.lieObjectif = new LieObjectif();
+		this.lieObjectif.render(idJeu,idMission);
 	},
 
 	ModifObjectif: function(id){
