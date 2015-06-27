@@ -12,15 +12,24 @@
 				<td>{{objectif.numobjectif}}</td>
 				<td>{{objectif.libobjectif}}</td>
 				<td>
-					<table class="table" id="tabAction">
-						<tbody>
-						{{#each actions}}
-							<tr>
-								<td>{{attributes.numaction}} {{attributes.libaction}}</td>
-							</tr>
-							{{/each}}
-						</tbody>
-					</table>
+					{{#if actions}}
+						<table class="table" id="tabAction">
+							<thead>
+								<tr>
+									<th>Identifiant</th>
+									<th>Libellé</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+							{{#each actions}}
+								<tr onClick="document.location='#Actions/{{attributes.numaction}}'">
+									<td>{{attributes.numaction}}</td><td>{{attributes.libaction}}</td>
+								</tr>
+								{{/each}}
+							</tbody>
+						</table>
+					{{/if}}
 				<td>
 				<td>
 					<a href="#Objectifs/Modifier/{{objectif.numobjectif}}">
