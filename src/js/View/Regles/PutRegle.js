@@ -39,13 +39,13 @@ var view = Backbone.View.extend({
 		if (this.idRegle===undefined){
 			model.save({"libregle":libRegle, "scoremin":scoreAction}, {
 				success: this.showModal("Ajout"),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			}); 
 		}
 		else{
 			model.save({"id":this.idRegle, "libregle":libRegle, "scoremin":scoreAction}, {
 				success: this.showModal("Modifier"),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		} 
 		return true;
@@ -77,7 +77,7 @@ var view = Backbone.View.extend({
 
 	showErrorModal: function(object,error){
 		if (error.status==201){
-			showModal();
+			this.showModal();
 			return true;
 		}
 		var modalView = new modal({

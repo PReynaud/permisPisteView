@@ -50,13 +50,13 @@ var view = Backbone.View.extend({
 		if (this.idAction===undefined){
 			model.save({"actNumaction":actNumaction, "libaction":libaction, "scoremin":scoremin}, {
 				success: this.showModal("Ajout"),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		}
 		else{
 			model.save({"numaction":this.idAction, "actNumaction":actNumaction, "libaction":libaction, "scoremin":scoremin}, {
 				success: this.showModal("Modifier"),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		} 
 		return true;
@@ -67,7 +67,7 @@ var view = Backbone.View.extend({
 		var model =  new possedeModel();
 		model.save({"numaction":this.idAction, "numregle":numregle}, {
 			success: this.showModal,
-			error: this.showErrorModal
+			error: _.bind(this.showErrorModal,this)
 		});
 		return true;
 	},
@@ -125,7 +125,7 @@ var view = Backbone.View.extend({
 
 	showErrorModal: function(object,error){
 		if (error.status==201){
-			showModal();
+			this.showModal();
 			return true;
 		}
 		var modalView = new modal({
