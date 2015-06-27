@@ -36,9 +36,6 @@ gulp.task("backbone", function(){
 	    fullPaths: true
 	})
 		.bundle()
-		.on('error', function(err){
-			return notify().write(err);
-		})
 	    .pipe(source(path.OUT))
 	    .pipe(gulp.dest(path.DEST + "/js"));
 });
