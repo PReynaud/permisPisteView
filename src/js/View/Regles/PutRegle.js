@@ -43,7 +43,7 @@ var view = Backbone.View.extend({
 			}); 
 		}
 		else{
-			model.save({"id":this.idRegle, "libregle":libRegle, "scoremin":scoreAction}, {
+			model.save({"numregle":this.idRegle, "libregle":libRegle, "scoremin":scoreAction}, {
 				success: this.showModal("Modifier"),
 				error: _.bind(this.showErrorModal,this)
 			});

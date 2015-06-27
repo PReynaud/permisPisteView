@@ -37,7 +37,7 @@ var view = Backbone.View.extend({
 
 	showErrorModal: function(object,error){
 		if (error.status==201){
-			this.showModal();
+			this.valid();
 			return true;
 		}
 		var modalView = new modal({

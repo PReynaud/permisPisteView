@@ -48,7 +48,7 @@ var view = Backbone.View.extend({
 		}
 		else
 		{
-			model.save({"id":this.idIndicateur,"libindic":libIndicateur, "numaction":scoreAction ,"poids":libPoids}, {
+			model.save({"numindic":this.idIndicateur,"libindic":libIndicateur, "numaction":scoreAction ,"poids":libPoids}, {
 				success: this.showModal,
 				error: _.bind(this.showErrorModal,this)
 			});

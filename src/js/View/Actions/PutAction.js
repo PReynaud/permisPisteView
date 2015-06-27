@@ -74,8 +74,10 @@ var view = Backbone.View.extend({
 
 	renderResultat: function(responseList, responseListRegleTot, responseListRegle, response){
 		if(response===undefined){
+			this.actionType = 'Ajout';
 			this.$content.html(template({actions:responseList}));
 		}else{
+			this.actionType = 'Modifier';
 
 			// Enleve l'id courrant de la liste
 			for(var i = 0; i <responseList[0].length; i++) {
@@ -110,17 +112,18 @@ var view = Backbone.View.extend({
 		}, this));
 	},
 
-	showModal: function(actionType){
+	showModal: function(){
 		var ArticleModalBody = "La";
-		if(actionType === "Ajout"){
+		if(this.actionType === "Ajout"){
 			ArticleModalBody = "L'";
 		}
 		var modalView = new modal({
-			modalTitle: actionType,
-		 	modalBody: ArticleModalBody+" "+actionType+" a été effectué avec succès"
+			modalTitle: this.actionType,
+		 	modalBody: ArticleModalBody+" "+this.actionType+" a été effectué avec succès"
 		});
 		
 		Backbone.history.navigate('#Actions', {trigger:true});
+		window.location.reload();
 	},
 
 	showErrorModal: function(object,error){
