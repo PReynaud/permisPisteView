@@ -173,11 +173,18 @@ var view = Backbone.View.extend({
 		}); 
 		actualMission.set("listObjectif", this.listObjectif);
 
+		/* Rendu final de la page d'une mission*/ 
 		$(this.content).html(templateEvalMission({mission:actualMission}));
+
+		var $bilanButton = $("#formChoixRegle");
+		$bilanButton.submit(_.bind(function(e){
+			debugger;
+			this.validMission();
+		}, this));
 	},
 
 	/* Clic sur le second bouton valider */ 
-	validMission: function(e){
+	validMission: function(){
 		$(this.content).html(templateBilanMission());
 
 		var $missionSuivante = $('#missionSuivante');
