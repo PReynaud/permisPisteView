@@ -1,0 +1,34 @@
+h1{
+	color: red;
+	text-align: center;
+}
+
+body{
+	background-color: #EFEFEF
+}
+
+
+/*****  Header  *******/
+
+
+/*****  Footer  *******/
+#conteneurFooter{
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#footer{
+background-color: #f8f8f8;
+}
+
+/**********************/
+#modalErrorView .modal-header{
+	background-color: #fc4e4e;
+}
+
+#modalErrorView .modal-footer{
+	background-color: #fc4e4e;
+}
+
