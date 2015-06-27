@@ -18,7 +18,7 @@ var view = Backbone.View.extend({
 		$('#confirmDelete').on('click',_.bind(function(e){
 			var model = new jeuModel({"id":jeu.id}).destroy({
 				success: _.bind(this.valid,this),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		},this));
 		$('#annulDelete').on('click',_.bind(function(e){
@@ -37,12 +37,12 @@ var view = Backbone.View.extend({
 
 	showErrorModal: function(object,error){
 		if (error.status==201){
-			showModal();
+			this.showModal();
 			return true;
 		}
 		var modalView = new modal({
 			modalTitle: "Erreur "+error.status,
-		 	modalBody: "Erreur lors de l'ajout : " + error.statusText,
+		 	modalBody: "Erreur lors de la suppression : " + error.statusText,
 		 	modalError: true
 		});
 	}

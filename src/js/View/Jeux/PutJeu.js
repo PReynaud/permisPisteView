@@ -38,13 +38,13 @@ var view = Backbone.View.extend({
 		if (this.idJeu===undefined){
 			model.save({"libellejeu":libellejeu}, {
 				success: this.showModal("Ajout"),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		}
 		else{
 			model.save({"id":this.idJeu, "libellejeu":libellejeu}, {
 				success: this.showModal("Modifier"),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		} 
 		return true;
@@ -76,7 +76,7 @@ var view = Backbone.View.extend({
 
 	showErrorModal: function(object,error){
 		if (error.status==201){
-			showModal();
+			this.showModal();
 			return true;
 		}
 		var modalView = new modal({
