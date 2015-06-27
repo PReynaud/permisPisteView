@@ -1,6 +1,6 @@
 var objectifModel = require('../../Model/Objectifs/Objectif');
 var objectifsModel = require('../../Model/Objectifs/ObjectifsList');
-var objectifList= require('../../Model/Fixe/Fixe')
+var objectifList= require('../../Model/Fixe/Fixe');
 var FixeModel = require('../../Model/Fixe/Fixe2');
 var template = require('./LieObjectif.hbs');
 var modal = require('../Global/modal.js');
@@ -30,8 +30,8 @@ var view = Backbone.View.extend({
 		this.idJeu=idJeu;
 	},
 	valid: function(e){
-		var numobjectif = $('#numobjectif').val();
-
+		var numobjectif = $('#objectif').val();
+		console.log(numobjectif);
 		var model = new FixeModel();
 		if (this.idObjectif===undefined){
 			model.save({"nummission":this.idMission, "numobjectif":numobjectif}, {
@@ -46,7 +46,6 @@ var view = Backbone.View.extend({
 		if(objectifsParser===null){
 			this.$content.html(template({objectifs:objectifs}));
 		}else{
-			console.log(objectifs);
 			var Objectif = Backbone.Model.extend({
 				numobjectif:0,
 				libobjectif:""
@@ -69,10 +68,6 @@ var view = Backbone.View.extend({
 		      			}
 				    }
 				}
-		  	}
-		  	for(var i=0;i<listObjectif.length;i++)
-		  	{
-		  		console.log(listObjectif.models[i]);
 		  	}
 			// Passe les elments au hbs
 				this.$content.html(template({Objectifstot:listObjectif.models}));
