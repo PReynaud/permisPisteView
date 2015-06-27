@@ -1,6 +1,6 @@
 var indicateurModel = require('../../Model/Indicateurs/Indicateur');
 var actionModel= require ('../../Model/Actions/ActionsList')
-var template = require('./AjoutIndicateur.hbs');
+var template = require('./PutIndicateur.hbs');
 var modal = require('../Global/modal.js');
 
 var view = Backbone.View.extend({
@@ -43,14 +43,14 @@ var view = Backbone.View.extend({
 			console.log(model);
 			model.save({"libindic":libIndicateur, "numaction":scoreAction ,"poids":libPoids}, {
 				success: this.showModal,
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		}
 		else
 		{
 			model.save({"id":this.idIndicateur,"libindic":libIndicateur, "numaction":scoreAction ,"poids":libPoids}, {
 				success: this.showModal,
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		}
 
@@ -82,7 +82,7 @@ var view = Backbone.View.extend({
 
 	showErrorModal: function(object,error){
 		if (error.status==201){
-			showModal();
+			this.showModal();
 			return true;
 		}
 		var modalView = new modal({

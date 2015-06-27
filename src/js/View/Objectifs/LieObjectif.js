@@ -35,7 +35,7 @@ var view = Backbone.View.extend({
 		var model = new FixeModel();
 		model.save({"nummission":this.idMission, "numobjectif":numobjectif}, {
 			success: this.showModal,
-			error: this.showErrorModal
+			error: _.bind(this.showErrorModal,this)
 		});
 		return true;
 	},
@@ -87,7 +87,7 @@ var view = Backbone.View.extend({
 
 	showErrorModal: function(object,error){
 		if (error.status==201){
-			showModal();
+			this.showModal();
 			return true;
 		}
 		var modalView = new modal({

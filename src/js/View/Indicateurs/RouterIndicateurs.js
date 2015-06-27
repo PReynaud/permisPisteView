@@ -1,6 +1,6 @@
 var Indicateurs = require('./Indicateurs');
 var Indicateur = require('./Indicateur');
-var AjoutIndicateur = require('./AjoutIndicateur');
+var AjoutIndicateur = require('./PutIndicateur');
 var DeleteIndicateur = require('./DeleteIndicateur');
 
 var Router = Backbone.Router.extend({
