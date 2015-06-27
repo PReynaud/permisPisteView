@@ -15,7 +15,7 @@ var view = Backbone.View.extend({
 
 	//Fonction chargée du rendu
 	render: function(idJeu){
-		this.renderResultat(undefined);
+		this.renderResultat();
 		this.$pageName.html("Ajout mission");
 		this.$title.html("Ajouter un mission");
 		this.idJeu=idJeu;
@@ -37,13 +37,13 @@ var view = Backbone.View.extend({
 		if (this.idMission===undefined){
 			model.save({"numjeu":this.idJeu,"libmission":libmission}, {
 				success: this.showModal("Ajout"),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		}
 		else{
 			model.save({"id":this.idMission,"numjeu":this.idJeu, "libmission":libmission}, {
 				success: this.showModal("Modifier"),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		} 
 		return true;
@@ -70,14 +70,18 @@ var view = Backbone.View.extend({
 		 	modalBody: ArticleModalBody+" "+missionType+" a été effectué avec succès"
 		});
 		
-		Backbone.history.navigate('#Jeux');
+		Backbone.history.navigate('#Jeux', {trigger:true});
 		window.location.reload();
 	},
 
-	showErrorModal: function(error){
+	showErrorModal: function(object,error){
+		if (error.status==201){
+			this.showModal();
+			return true;
+		}
 		var modalView = new modal({
-			modalTitle: "Ajout/Modifier",
-		 	modalBody: "Erreur lors de l'ajout/modification : " + error,
+			modalTitle: "Erreur "+error.status,
+		 	modalBody: "Erreur lors de l'ajout : " + error.statusText,
 		 	modalError: true
 		});
 	}

@@ -1,6 +1,6 @@
 var indicateurModel = require('../../Model/Indicateurs/Indicateur');
 var actionModel= require ('../../Model/Actions/ActionsList')
-var template = require('./AjoutIndicateur.hbs');
+var template = require('./PutIndicateur.hbs');
 var modal = require('../Global/modal.js');
 
 var view = Backbone.View.extend({
@@ -43,14 +43,14 @@ var view = Backbone.View.extend({
 			console.log(model);
 			model.save({"libindic":libIndicateur, "numaction":scoreAction ,"poids":libPoids}, {
 				success: this.showModal,
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		}
 		else
 		{
-			model.save({"id":this.idIndicateur,"libindic":libIndicateur, "numaction":scoreAction ,"poids":libPoids}, {
+			model.save({"numindic":this.idIndicateur,"libindic":libIndicateur, "numaction":scoreAction ,"poids":libPoids}, {
 				success: this.showModal,
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		}
 
@@ -80,10 +80,14 @@ var view = Backbone.View.extend({
 		Backbone.history.navigate('#Indicateurs', {trigger:true});
 	},
 
-	showErrorModal: function(error){
+	showErrorModal: function(object,error){
+		if (error.status==201){
+			this.showModal();
+			return true;
+		}
 		var modalView = new modal({
-			modalTitle: "Ajout",
-		 	modalBody: "Erreur lors de l'ajout : " + error,
+			modalTitle: "Erreur "+error.status,
+		 	modalBody: "Erreur lors de l'ajout : " + error.statusText,
 		 	modalError: true
 		});
 	}

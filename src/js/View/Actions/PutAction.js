@@ -50,13 +50,13 @@ var view = Backbone.View.extend({
 		if (this.idAction===undefined){
 			model.save({"actNumaction":actNumaction, "libaction":libaction, "scoremin":scoremin}, {
 				success: this.showModal("Ajout"),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		}
 		else{
 			model.save({"numaction":this.idAction, "actNumaction":actNumaction, "libaction":libaction, "scoremin":scoremin}, {
 				success: this.showModal("Modifier"),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		} 
 		return true;
@@ -67,15 +67,17 @@ var view = Backbone.View.extend({
 		var model =  new possedeModel();
 		model.save({"numaction":this.idAction, "numregle":numregle}, {
 			success: this.showModal,
-			error: this.showErrorModal
+			error: _.bind(this.showErrorModal,this)
 		});
 		return true;
 	},
 
 	renderResultat: function(responseList, responseListRegleTot, responseListRegle, response){
 		if(response===undefined){
+			this.actionType = 'Ajout';
 			this.$content.html(template({actions:responseList}));
 		}else{
+			this.actionType = 'Modifier';
 
 			// Enleve l'id courrant de la liste
 			for(var i = 0; i <responseList[0].length; i++) {
@@ -110,23 +112,28 @@ var view = Backbone.View.extend({
 		}, this));
 	},
 
-	showModal: function(actionType){
+	showModal: function(){
 		var ArticleModalBody = "La";
-		if(actionType === "Ajout"){
+		if(this.actionType === "Ajout"){
 			ArticleModalBody = "L'";
 		}
 		var modalView = new modal({
-			modalTitle: actionType,
-		 	modalBody: ArticleModalBody+" "+actionType+" a été effectué avec succès"
+			modalTitle: this.actionType,
+		 	modalBody: ArticleModalBody+" "+this.actionType+" a été effectué avec succès"
 		});
 		
 		Backbone.history.navigate('#Actions', {trigger:true});
+		window.location.reload();
 	},
 
-	showErrorModal: function(error){
+	showErrorModal: function(object,error){
+		if (error.status==201){
+			this.showModal();
+			return true;
+		}
 		var modalView = new modal({
-			modalTitle: "Ajout/Modifier",
-		 	modalBody: "Erreur lors de l'ajout/modification : " + error,
+			modalTitle: "Erreur "+error.status,
+		 	modalBody: "Erreur lors de l'ajout : " + error.statusText,
 		 	modalError: true
 		});
 	}

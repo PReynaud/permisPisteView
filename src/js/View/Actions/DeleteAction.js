@@ -19,7 +19,7 @@ var view = Backbone.View.extend({
 		$('#confirmDelete').on('click',_.bind(function(e){
 			var model = new possedeModel({"numaction":id, "numregle":iRegle}).destroy({
 				success: _.bind(this.valid,this),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		},this));
 		$('#annulDelete').on('click',_.bind(function(e){
@@ -36,7 +36,7 @@ var view = Backbone.View.extend({
 		$('#confirmDelete').on('click',_.bind(function(e){
 			var model = new actionModel({"id":action.id}).destroy({
 				success: _.bind(this.valid,this),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		},this));
 		$('#annulDelete').on('click',_.bind(function(e){
@@ -54,10 +54,14 @@ var view = Backbone.View.extend({
 			Backbone.history.navigate('#Actions', {trigger:true});
 	},
 
-	showErrorModal: function(error){
+	showErrorModal: function(object,error){
+		if (error.status==201){
+			this.showModal();
+			return true;
+		}
 		var modalView = new modal({
-			modalTitle: "Suppression",
-		 	modalBody: "Erreur lors de la suppression : " + error,
+			modalTitle: "Erreur "+error.status,
+		 	modalBody: "Erreur lors de la suppression : " + error.statusText,
 		 	modalError: true
 		});
 	}

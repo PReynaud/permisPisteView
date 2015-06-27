@@ -38,13 +38,13 @@ var view = Backbone.View.extend({
 		if (this.idJeu===undefined){
 			model.save({"libellejeu":libellejeu}, {
 				success: this.showModal("Ajout"),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		}
 		else{
 			model.save({"id":this.idJeu, "libellejeu":libellejeu}, {
 				success: this.showModal("Modifier"),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		} 
 		return true;
@@ -74,10 +74,14 @@ var view = Backbone.View.extend({
 		Backbone.history.navigate('#Jeux', {trigger:true});
 	},
 
-	showErrorModal: function(error){
+	showErrorModal: function(object,error){
+		if (error.status==201){
+			this.showModal();
+			return true;
+		}
 		var modalView = new modal({
-			modalTitle: "Ajout/Modifier",
-		 	modalBody: "Erreur lors de l'ajout/modification : " + error,
+			modalTitle: "Erreur "+error.status,
+		 	modalBody: "Erreur lors de l'ajout : " + error.statusText,
 		 	modalError: true
 		});
 	}

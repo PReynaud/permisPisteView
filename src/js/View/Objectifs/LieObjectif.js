@@ -29,16 +29,14 @@ var view = Backbone.View.extend({
 		this.idMission=idMission;
 		this.idJeu=idJeu;
 	},
+
 	valid: function(e){
 		var numobjectif = $('#objectif').val();
-		console.log(numobjectif);
 		var model = new FixeModel();
-		if (this.idObjectif===undefined){
-			model.save({"nummission":this.idMission, "numobjectif":numobjectif}, {
-				success: this.showModal,
-				error: this.showErrorModal
-			});
-		}
+		model.save({"nummission":this.idMission, "numobjectif":numobjectif}, {
+			success: this.showModal,
+			error: _.bind(this.showErrorModal,this)
+		});
 		return true;
 	},
 
@@ -87,10 +85,14 @@ var view = Backbone.View.extend({
 		Backbone.history.navigate('#Jeux/'+this.idJeu+'/Missions/'+this.idMission, {trigger:true});
 	},
 
-	showErrorModal: function(error){
+	showErrorModal: function(object,error){
+		if (error.status==201){
+			this.showModal();
+			return true;
+		}
 		var modalView = new modal({
-			modalTitle: "Ajout",
-		 	modalBody: "Erreur lors de l'ajout : " + error,
+			modalTitle: "Erreur "+error.status,
+		 	modalBody: "Erreur lors de l'ajout : " + error.statusText,
 		 	modalError: true
 		});
 	}

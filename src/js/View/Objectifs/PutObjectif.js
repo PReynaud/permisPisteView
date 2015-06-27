@@ -46,13 +46,13 @@ var view = Backbone.View.extend({
 		if (this.idObjectif===undefined){
 			model.save({"libobjectif":libobjectif}, {
 				success: this.showModal,
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		}
 		else{
 			model.save({"numobjectif":this.idObjectif, "libobjectif":libobjectif}, {
 				success: this.showModal,
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		} 
 		return true;
@@ -64,7 +64,7 @@ var view = Backbone.View.extend({
 		var model =  new Est_associeModel();
 		model.save({"numobjectif":this.idObjectif, "numaction":numaction}, {
 			success: this.showModal,
-			error: this.showErrorModal
+			error: _.bind(this.showErrorModal,this)
 		});
 		return true;
 	},
@@ -123,10 +123,14 @@ var view = Backbone.View.extend({
 		Backbone.history.navigate('#Objectifs', {trigger:true});
 	},
 
-	showErrorModal: function(error){
+	showErrorModal: function(object,error){
+		if (error.status==201){
+			this.showModal();
+			return true;
+		}
 		var modalView = new modal({
-			modalTitle: "Ajout",
-		 	modalBody: "Erreur lors de l'ajout : " + error,
+			modalTitle: "Erreur "+error.status,
+		 	modalBody: "Erreur lors de l'ajout : " + error.statusText,
 		 	modalError: true
 		});
 	}

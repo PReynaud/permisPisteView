@@ -36,15 +36,17 @@ var view = Backbone.View.extend({
 
 		var model = new apprenantModel();
 		if (this.idApprenant===undefined){
+			this.missionType = 'Ajout';
 			model.save({"nomapprenant":nomapprenant, "prenomapprenant":prenomapprenant}, {
-				success: this.showErrorModal,
-				error: this.showModal
+				success: this.showModal(),
+				error: _.bind(this.showErrorModal,this)
 			});
 		}
 		else{
+			this.missionType = 'Modifier';
 			model.save({"numapprenant":this.idApprenant, "nomapprenant":nomapprenant, "prenomapprenant":prenomapprenant}, {
-				success: this.showErrorModal,
-				error: this.showModal
+				success: this.showModal(),
+				error: _.bind(this.showErrorModal,this)
 			});
 		} 
 		return true;
@@ -63,21 +65,29 @@ var view = Backbone.View.extend({
 	},
 
 	showModal: function(){
+		var ArticleModalBody = "La";
+		if(this.missionType === "Ajout"){
+			ArticleModalBody = "L'";
+		}
 		var modalView = new modal({
-			modalTitle: "Ajout",
-		 	modalBody: "L'ajout a été effectué avec succès"
+			modalTitle: this.missionType,
+		 	modalBody: ArticleModalBody+" "+this.missionType+" a été effectué avec succès"
 		});
 		Backbone.history.navigate('#Apprenants', {trigger:true});
+		window.location.reload();
 	},
 
-	showErrorModal: function(error){
+	showErrorModal: function(object,error){
+		if (error.status==201){
+			this.showModal();
+			return true;
+		}
 		var modalView = new modal({
-			modalTitle: "Ajout",
-		 	modalBody: "Erreur lors de l'ajout : " + error,
+			modalTitle: "Erreur "+error.status,
+		 	modalBody: "Erreur lors de l'ajout : " + error.statusText,
 		 	modalError: true
 		});
-		Backbone.history.navigate('#Apprenants', {trigger:true});
 	}
 });
 
-module.exports = view; 
+module.exports = view;

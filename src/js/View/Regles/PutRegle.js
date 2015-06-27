@@ -39,13 +39,13 @@ var view = Backbone.View.extend({
 		if (this.idRegle===undefined){
 			model.save({"libregle":libRegle, "scoremin":scoreAction}, {
 				success: this.showModal("Ajout"),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			}); 
 		}
 		else{
-			model.save({"id":this.idRegle, "libregle":libRegle, "scoremin":scoreAction}, {
+			model.save({"numregle":this.idRegle, "libregle":libRegle, "scoremin":scoreAction}, {
 				success: this.showModal("Modifier"),
-				error: this.showErrorModal
+				error: _.bind(this.showErrorModal,this)
 			});
 		} 
 		return true;
@@ -75,10 +75,14 @@ var view = Backbone.View.extend({
 		Backbone.history.navigate('#Regles', {trigger:true});
 	},
 
-	showErrorModal: function(error){
+	showErrorModal: function(object,error){
+		if (error.status==201){
+			this.showModal();
+			return true;
+		}
 		var modalView = new modal({
-			modalTitle: "Ajout/Modification",
-		 	modalBody: "Erreur lors de l'ajout/modification : " + error,
+			modalTitle: "Erreur "+error.status,
+		 	modalBody: "Erreur lors de l'ajout : " + error.statusText,
 		 	modalError: true
 		});
 	}
