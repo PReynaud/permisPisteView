@@ -35,10 +35,14 @@ var view = Backbone.View.extend({
 		Backbone.history.navigate('#Indicateurs', {trigger:true});
 	},
 
-	showErrorModal: function(error){
+	showErrorModal: function(object,error){
+		if (error.status==201){
+			showModal();
+			return true;
+		}
 		var modalView = new modal({
-			modalTitle: "Suppression",
-		 	modalBody: "Erreur lors de la suppression : " + error,
+			modalTitle: "Erreur "+error.status,
+		 	modalBody: "Erreur lors de l'ajout : " + error.statusText,
 		 	modalError: true
 		});
 	}

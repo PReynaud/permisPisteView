@@ -14,7 +14,6 @@ var view = Backbone.View.extend({
 	//Fonction chargée du rendu
 	render: function(id){
 		var objectifs=new objectifList();
-		console.log(id);
 		objectifs.urlRoot=objectifs.urlRoot+''+id+"/Objectif";
 		$.when(new missionModel({"id":id}).fetch(),objectifs.fetch())
 		.done(_.bind(function(mission,objectifs){
@@ -25,7 +24,6 @@ var view = Backbone.View.extend({
 	},
 
 	renderResultat: function(mission,objectifs){
-		console.log(mission);
 		$(this.content).html(template({mission:mission[0],objectifs:objectifs[0]}));
 	}
 });
