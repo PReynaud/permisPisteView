@@ -102,18 +102,23 @@ var view = Backbone.View.extend({
 		$.whenall = function(arr) { return $.when.apply($, arr); };
 
 		$.whenall(promiseTab).then(_.bind(function(response){
-			for(var j = 0; j < response.length; j++){
-				/* On récupère toutes les règles de l'action en cours */
-				var tempAction = new actionModel({
-							numaction: response[0][j][1].numaction,
-							scoremin:  response[0][j][1].scoremin,
-							libaction: response[0][j][1].libaction,
-							numobjectif: response[0][j][0].numobjectif
-						});
-				/*Ajout de l'action à la liste d'action*/
-				this.actionRequestList.add(tempAction);
+			if(response === null || response === undefined || response.length == 0){
+				return this;
 			}
-			return this;
+			else{
+				for(var j = 0; j < response.length; j++){
+					/* On récupère toutes les règles de l'action en cours */
+					var tempAction = new actionModel({
+								numaction: response[0][j][1].numaction,
+								scoremin:  response[0][j][1].scoremin,
+								libaction: response[0][j][1].libaction,
+								numobjectif: response[0][j][0].numobjectif
+							});
+					/*Ajout de l'action à la liste d'action*/
+					this.actionRequestList.add(tempAction);
+				}
+				return this;
+			}
 		}, this))
 		.done(_.bind(function(){
 			this.requestRegles();
@@ -129,15 +134,21 @@ var view = Backbone.View.extend({
 			promiseArray[promiseArray.length] = tempRegleModel.fetch();
 		}
 		$.whenall(promiseArray).then(_.bind(function(response){
-			var responseArray = response[0];
-			for(var j = 0; j < responseArray.length; j++){
-				var tempRegleModel = new regleModel({
-					libregle: responseArray[j][0].libregle,
-					numregle: responseArray[j][0].numregle,
-					scoremin: responseArray[j][0].scoremin,
-					numaction: responseArray[j][1].numaction
-				});
-				this.regleRequestList.add(tempRegleModel);
+			if(response === undefined){
+				return this;
+			}
+			else{
+				var responseArray = response[0];
+				for(var j = 0; j < responseArray.length; j++){
+					var tempRegleModel = new regleModel({
+						libregle: responseArray[j][0].libregle,
+						numregle: responseArray[j][0].numregle,
+						scoremin: responseArray[j][0].scoremin,
+						numaction: responseArray[j][1].numaction
+					});
+					this.regleRequestList.add(tempRegleModel);
+				}
+				return this;
 			}
 		}, this))
 		.done(_.bind(function(){
@@ -172,13 +183,12 @@ var view = Backbone.View.extend({
 			libmission: temp.libmission
 		}); 
 		actualMission.set("listObjectif", this.listObjectif);
-
+	
 		/* Rendu final de la page d'une mission*/ 
 		$(this.content).html(templateEvalMission({mission:actualMission}));
 
 		var $bilanButton = $("#formChoixRegle");
 		$bilanButton.submit(_.bind(function(e){
-			debugger;
 			this.validMission();
 		}, this));
 	},
@@ -189,7 +199,7 @@ var view = Backbone.View.extend({
 
 		var $missionSuivante = $('#missionSuivante');
 		$missionSuivante.click(_.bind(function(event){
-			if(this.currentMission >= this.numberOfMission){
+			if(this.currentMission >= this.numberOfMission - 1){
 		    	this.validBilan();
 			}
 			else{
