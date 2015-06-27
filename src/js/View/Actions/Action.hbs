@@ -16,15 +16,24 @@
 				<td>{{action.libaction}}</td>
 				<td>{{action.scoremin}}</td>
 				<td>
-					<table class="table" id="tabRegle">
-						<tbody>
-							{{#each regles}}
+					{{#if regles}}
+						<table class="table" id="tabRegle">
+							<thead>
 								<tr>
-									<td>{{attributes.numregle}} {{attributes.libregle}}</td>
+									<th>Identifiant</th>
+									<th>Libellé</th>
+									<th></th>
 								</tr>
-							{{/each}}
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								{{#each regles}}
+									<tr onClick="document.location='#Regles/{{attributes.numregle}}'">
+										<td>{{attributes.numregle}}</td><td>{{attributes.libregle}}</td>
+									</tr>
+								{{/each}}
+							</tbody>
+						</table>
+					{{/if}}
 				</td>
 				<td>
 					<a href="#Actions/Modifier/{{action.numaction}}">
