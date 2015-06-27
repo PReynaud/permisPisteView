@@ -5,6 +5,7 @@ var templateEvalMission = require('./EvalMission.hbs');
 var templateBilanMission = require('./BilanMission.hbs');
 var templateBilanFinal = require('./BilanFinal.hbs');
 
+var mission = require('../../Model/Missions/Mission');
 var missionObjectifCollection = require('../../Model/Objectifs/ObjectifMission');
 var objectifModel = require('../../Model/Objectifs/Objectif');
 var objectifList = require('../../Model/Objectifs/ObjectifsList');
@@ -106,7 +107,8 @@ var view = Backbone.View.extend({
 				var tempAction = new actionModel({
 							numaction: response[0][j][1].numaction,
 							scoremin:  response[0][j][1].scoremin,
-							libaction: response[0][j][1].libaction
+							libaction: response[0][j][1].libaction,
+							numobjectif: response[0][j][0].numobjectif
 						});
 				/*Ajout de l'action à la liste d'action*/
 				this.actionRequestList.add(tempAction);
@@ -126,7 +128,6 @@ var view = Backbone.View.extend({
 			tempRegleModel.urlRoot = tempRegleModel.urlRoot + "Action/" + this.actionRequestList.at(i).get("numaction");
 			promiseArray[promiseArray.length] = tempRegleModel.fetch();
 		}
-
 		$.whenall(promiseArray).then(_.bind(function(response){
 			var responseArray = response[0];
 			for(var j = 0; j < responseArray.length; j++){
@@ -139,8 +140,40 @@ var view = Backbone.View.extend({
 				this.regleRequestList.add(tempRegleModel);
 			}
 		}, this))
-		.done(
-		);
+		.done(_.bind(function(){
+			this.joinDatas();
+		}, this));
+	},
+
+	joinDatas : function(){
+		for(var i = 0; i < this.actionRequestList.length; i++){
+			var listRegle = [];
+			for (var j = 0; j<this.regleRequestList.length;j++) {
+				if(this.actionRequestList.at(i).get("numaction")==this.regleRequestList.at(j).get("numaction")){
+					listRegle.push(this.regleRequestList.at(j));
+				}
+			}
+			this.actionRequestList.at(i).set("listRegle",listRegle);
+		}
+
+		for(var i = 0; i < this.listObjectif.length; i++){
+			var listAction = [];
+			for (var j = 0; j<this.actionRequestList.length;j++) {
+				if(this.listObjectif.at(i).get("numobjectif")==this.actionRequestList.at(j).get("numobjectif")){
+					listAction.push(this.actionRequestList.at(j));
+				}
+			}
+			this.listObjectif.at(i).set("listAction",listAction);
+		}
+		var temp = this.selectedJeu.missionJeu[this.currentMission];
+		var actualMission = new mission({
+			nummission: temp.nummission,
+			numjeu: temp.numjeu,
+			libmission: temp.libmission
+		}); 
+		actualMission.set("listObjectif", this.listObjectif);
+
+		$(this.content).html(templateEvalMission({mission:actualMission}));
 	},
 
 	/* Clic sur le second bouton valider */ 
@@ -153,6 +186,7 @@ var view = Backbone.View.extend({
 		    	this.validBilan();
 			}
 			else{
+				this.currentMission=this.currentMission+1;
 				this.renderOneMission();
 			}
 		}, this));

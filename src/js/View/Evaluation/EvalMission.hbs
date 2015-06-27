@@ -1,62 +1,48 @@
 <h3>Evaluation de la mission</h3>
-<h2>{{titre}}</h2>
+<h2>{{mission.attributes.libmission}}</h2>
   <form id="formChoixRegle" method="post">
     <div class="row">
-      <div class="col-sm-3">
-        Num
+      <div class="col-md-3">
+        Objectifs
       </div>
-      <div class="col-sm-3">
-        Objectif
-      </div>
-      <div class="col-sm-3">
+      <div class="col-md-3">
         Actions
       </div>
-      <div class="col-sm-3">
+      <div class="col-md-3">
         Règles
       </div>
+      <div class="col-md-3">
+      </div>
     </div>
-  {{#each pouet}}
+  {{#each mission.attributes.listObjectif.models}}
     <div class="row">
-      <div class="col-sm-3">
-        
+      <div class="col-md-3">
+        {{attributes.libobjectif}}
       </div>
-      <div class="col-sm-3">
-        {{#each pouet2}}
-          <div class="row"></div>
-        {{/each}}
-      </div>
-      <div class="col-sm-3">
-        {{#each pouet2}}
-          {{#each pouet3}}
-            <div class="row"></div>
+        <div class="col-md-9">
+          {{#each attributes.listAction}}
+            <div class="row">
+              <div class="col-md-4">
+                {{attributes.libaction}}
+              </div>
+              <div class="col-md-8">
+              {{#each attributes.listRegle}}
+                <div class="row">
+                  <div class="col-md-6">
+                    {{attributes.libregle}}
+                  </div>
+                  <div class="col-md-6">
+                    <input type="checkbox" id="{{attributes.libregle}}">
+                  </div>
+                </div>  
+              {{/each}}
+              </div>
+            </div>
           {{/each}}
-        {{/each}}
-      </div>
-      <div class="col-sm-3">
-        
       </div>
     </div>
   {{/each}}
+
 
   <button id="submitButton" class="btn btn-default">Valider</button>
   </form>
-
-{{!-- <table class="table">
-  <thead>
-    <tr>
-      <th>Num</th>
-      <th>Objectif</th>
-      <th>Actions</th>
-      <th>Règles</th>
-    </tr>
-  </thead>
-  <tbody>
-  {{#each pouet}}
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  {{/each}}
-</table> --}}
