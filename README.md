@@ -1,13 +1,13 @@
 Vue du projet PermisPiste
 
 Pour pouvoir développer:
-_ Installer NodeJS (https://nodejs.org/download/    -> télécharger le msi)
-_ Redémarrer
-_ Tester que ça marche dans une console en tapant "npm"
-_ Se placer dans la racine du projet
-_ Taper "npm install"
-_ Taper "npm install -g bower"
-_ Taper "bower install"
+* Installer NodeJS (https://nodejs.org/download/    -> télécharger le msi)
+* Redémarrer
+* Tester que ça marche dans une console en tapant "npm"
+* Se placer dans la racine du projet
+* Taper "npm install"
+* Taper "npm install -g bower"
+* Taper "bower install"
 
 L'installation est prête :-)
 
@@ -19,6 +19,6 @@ Les fichiers générés sont présents dans le dossier dist.
 
 
 Lien d'aide: 
-http://backbonejs.org/
-http://handlebarsjs.com/
-http://getbootstrap.com/components/
+* http://backbonejs.org/
+* http://handlebarsjs.com/
+* http://getbootstrap.com/components/
